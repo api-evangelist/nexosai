@@ -1,0 +1,84 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Agent Management
+  description: Manage agents.
+paths:
+  /v1/agents:
+    get:
+      operationId: get-agents-v1
+      summary: List agents for a specific user
+      tags:
+      - Agent Management
+      description: Retrieve list of agents for a specific user.
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: The number of items to return.
+        schema:
+          type: integer
+          format: int64
+          default: 100
+          minimum: 1
+          maximum: 200
+      - name: offset
+        in: query
+        required: false
+        description: The number of items to skip.
+        schema:
+          type: integer
+          format: int64
+      - name: sort_by.field
+        in: query
+        schema:
+          $ref: '#/components/schemas/AgentSortByField'
+        description: Field to sort by, must be used together with sort_by.order.
+      - name: sort_by.order
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/AgentSortOrder'
+        description: Sort order, must be used together with sort_by.field.
+      - name: include_shared
+        in: query
+        required: false
+        description: Whether to include agents shared with the user.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          $ref: '#/components/responses/AgentListResponse'
+        '404':
+          description: Agent not found.
+components:
+  schemas:
+    AgentSortOrder:
+      type: string
+      enum:
+      - asc
+      - desc
+      description: Sort order, must be used together with sort_by.field.
+    AgentSortByField:
+      type: string
+      enum:
+      - name
+      - created_at
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

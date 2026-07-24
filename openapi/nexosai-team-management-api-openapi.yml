@@ -1,0 +1,293 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Team Management API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Team Management
+  description: Manage teams, API keys, and models.
+paths:
+  /v1/teams/{teamId}/api_keys:
+    get:
+      operationId: list-team-api-keys-v1
+      tags:
+      - Team Management
+      summary: List team API keys
+      description: Return all API keys that belong to the team.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of team API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APIKey'
+    post:
+      operationId: create-team-api-key-v1
+      tags:
+      - Team Management
+      summary: Create team API key
+      description: Create a new API key for the team.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/TeamAPIKeyResponse'
+  /v1/teams/{teamId}/api_keys/bulk:
+    post:
+      operationId: update-many-team-api-keys-v1
+      tags:
+      - Team Management
+      summary: Update many team API keys
+      description: Update multiple team API keys in a single request.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyBulkUpdateRequest'
+      responses:
+        '200':
+          description: Updated API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APIKey'
+  /v1/teams/{teamId}/api_keys/{keyId}:
+    delete:
+      operationId: delete-team-api-key-v1
+      tags:
+      - Team Management
+      summary: Delete team API key
+      description: Permanently delete a team API key.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        required: true
+        description: The ID of the key.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: API key deleted successfully.
+        '400':
+          description: Bad request
+        '404':
+          description: Team/Key not found.
+    patch:
+      operationId: update-team-api-key-v1
+      tags:
+      - Team Management
+      summary: Update team API key
+      description: Update a team API key.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        required: true
+        description: The ID of the key.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/TeamAPIKeyResponse'
+        '400':
+          description: Invalid request.
+        '404':
+          description: Team/Key not found.
+  /v1/teams/{teamId}/api_keys/{keyId}/regenerate:
+    patch:
+      operationId: regenerate-team-api-key-v1
+      deprecated: true
+      tags:
+      - Team Management
+      summary: Regenerate team API key
+      description: Regenerate the value of a team API key.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        description: The ID of the team.
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        required: true
+        description: The ID of the key.
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/TeamAPIKeyResponse'
+        '400':
+          description: Invalid request.
+        '404':
+          description: Team/Key not found.
+  /v1/apikey/rotate:
+    patch:
+      operationId: rotate-api-key-v1
+      tags:
+      - Team Management
+      summary: Rotate API key
+      description: Rotates the API key used to authenticate this request. Returns a new key value.
+      responses:
+        '200':
+          $ref: '#/components/responses/RotateAPIKeyResponse'
+        '401':
+          description: Unauthorized — request not authenticated via API key.
+        '500':
+          description: Internal server error.
+components:
+  schemas:
+    APIKeyBulkUpdateItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The UUID of the key to update.
+        name:
+          type: string
+          description: The name of the key.
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled.
+        expiration_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date when the key expires.
+        remove:
+          type: boolean
+          description: If you want to remove api key, set this to true - other cases skip.
+      required:
+      - id
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the key (needs to be unique).
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled. Only applicable when updating a key.
+        expiration_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date when the key expires. Null means no expiration.
+      required:
+      - name
+    APIKeyBulkUpdateRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIKeyBulkUpdateItem'
+          maxItems: 100
+      required:
+      - items
+    APIKey:
+      type: object
+      properties:
+        api_key:
+          type: string
+          description: API Key for use with completions API
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Display name for the API key
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled.
+        removed:
+          type: boolean
+          description: Whether the API key has been soft-deleted
+        created_at:
+          type: string
+          format: date-time
+          description: The time the key was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The time the key was last updated.
+        last_used_at:
+          type: string
+          format: date-time
+          description: The time the key was last used.
+        expiration_date:
+          type: string
+          format: date-time
+          description: The date when the key expires. Null if the key does not expire.
+      required:
+      - id
+      - api_key
+      - name
+      - enabled
+      - removed
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

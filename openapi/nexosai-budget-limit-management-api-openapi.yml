@@ -1,0 +1,231 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Budget Limit Management API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Budget Limit Management
+  description: Manage company budget limits.
+paths:
+  /v1/companies/{companyId}/budget_limits:
+    get:
+      operationId: get-company-budget-limits-v1
+      summary: List budget limits for a company
+      tags:
+      - Budget Limit Management
+      description: Retrieve all budget limits for a specific company.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          format: uint32
+          minimum: 1
+      - name: offset
+        in: query
+        required: false
+        description: Number of items to skip.
+        schema:
+          type: integer
+          format: uint32
+          minimum: 0
+      responses:
+        '200':
+          $ref: '#/components/responses/CompanyBudgetLimitListResponse'
+        '500':
+          description: Server error.
+        4XX:
+          description: Client error.
+    put:
+      operationId: put-company-budget-limits-v1
+      summary: Upsert a budget limit
+      tags:
+      - Budget Limit Management
+      description: Create or update a budget limit for a company.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertCompanyBudgetLimitRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CompanyBudgetLimitResponse'
+        '400':
+          description: Invalid request data.
+    delete:
+      operationId: delete-company-budget-limits-v1
+      summary: Delete a budget limit
+      tags:
+      - Budget Limit Management
+      description: Delete a specific budget limit for a company.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCompanyBudgetLimitRequest'
+      responses:
+        '204':
+          description: Budget limit deleted successfully.
+        '404':
+          description: Budget limit not found.
+  /v1/companies/{companyId}/budget_limits/bulk:
+    put:
+      operationId: put-company-budget-limits-bulk-v1
+      summary: Bulk upsert and delete budget limits
+      tags:
+      - Budget Limit Management
+      description: 'Apply many budget-limit changes for a company in a single call. Each item is upserted by default; items with `remove: true` delete the matching row identified by `(company_uuid, target_type, target_uuid, limit_type)`.'
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CompanyBudgetLimitListResponse'
+        '400':
+          description: Invalid request data.
+components:
+  schemas:
+    BulkUpsertCompanyBudgetLimitItem:
+      type: object
+      properties:
+        target_type:
+          type: string
+          description: The target type of the budget limit (only team or user are supported).
+          enum:
+          - team
+          - user
+        target_uuid:
+          type: string
+          description: The UUID of the target (team or user). Empty string for default budget.
+        limit_type:
+          type: string
+          description: The type of budget limit.
+          enum:
+          - general
+          - public-api
+        is_renewed:
+          type: boolean
+          description: Whether the budget limit is renewed periodically.
+        value:
+          type: integer
+          format: int64
+          description: The budget limit value. Ignored when remove is true.
+        remove:
+          type: boolean
+          description: When true, the matching row is deleted instead of upserted.
+      required:
+      - target_type
+      - target_uuid
+      - limit_type
+      - is_renewed
+    BulkUpsertCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitItem'
+      required:
+      - items
+    UpsertCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        target_type:
+          type: string
+          description: The target type of the budget limit (only team or user are supported).
+          enum:
+          - team
+          - user
+        target_uuid:
+          type: string
+          description: The UUID of the target (team or user). Empty string for default budget
+        limit_type:
+          type: string
+          description: The type of budget limit.
+          enum:
+          - general
+          - public-api
+        is_renewed:
+          type: boolean
+          description: Whether the budget limit is renewed periodically.
+        value:
+          type: integer
+          format: int64
+          description: The budget limit value.
+          nullable: true
+      required:
+      - target_type
+      - target_uuid
+      - limit_type
+      - is_renewed
+      - value
+    DeleteCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        target_type:
+          type: string
+          description: The target type of the budget limit (only team or user are supported).
+          enum:
+          - team
+          - user
+        target_uuid:
+          type: string
+          description: The UUID of the target (team or user).
+        limit_type:
+          type: string
+          description: The type of budget limit.
+          enum:
+          - general
+          - public-api
+      required:
+      - target_type
+      - limit_type
+      - target_uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

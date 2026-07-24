@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Embeddings API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Embeddings
+  description: Create vector embeddings for input text.
+paths:
+  /v1/embeddings:
+    post:
+      operationId: post-embeddings-v1
+      summary: Create embeddings
+      tags:
+      - Embeddings
+      description: Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmbeddingsRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/EmbeddingsResponse'
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+components:
+  schemas:
+    EmbeddingsRequest:
+      type: object
+      properties:
+        model:
+          type: string
+        input:
+          description: Input text to get embeddings for.
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          - type: array
+            items:
+              type: integer
+          - type: array
+            items:
+              type: array
+              items:
+                type: integer
+        encoding_format:
+          type: string
+          description: The format to return the embeddings in. Can be either float or base64.
+          enum:
+          - float
+          - base64
+          default: float
+        dimensions:
+          type: integer
+          description: The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models.
+          minimum: 1
+      required:
+      - model
+      - prompt
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

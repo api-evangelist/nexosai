@@ -1,0 +1,1077 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Messages API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Messages
+  description: Anthropic-native Messages API for prompt-cache-preserving passthrough.
+paths:
+  /v1/messages:
+    post:
+      operationId: createMessage
+      tags:
+      - Messages
+      summary: Create a message (Anthropic-native)
+      description: 'Anthropic-native Messages API. Accepts requests in Anthropic''s wire format and forwards
+
+        them to the upstream Anthropic provider byte-for-byte, preserving native features such as
+
+        `cache_control` for prompt caching. Use this endpoint when the client already speaks
+
+        Anthropic — it avoids the OpenAI translation layer that silently strips `cache_control`.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMessageRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesResponse'
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/MessagesStreamEvent'
+components:
+  schemas:
+    ContentBlockStartEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - content_block_start
+        index:
+          type: integer
+        content_block:
+          $ref: '#/components/schemas/ContentBlock'
+      required:
+      - type
+      - index
+      - content_block
+    ServerToolUsage:
+      type: object
+      description: Usage counts for each server-side tool, present when those tools ran during the request.
+      properties:
+        web_search_requests:
+          type: integer
+    CitationsDelta:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - citations_delta
+        citation:
+          type: object
+          properties:
+            type:
+              type: string
+          required:
+          - type
+      required:
+      - type
+      - citation
+    CitationsConfig:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+    Tool:
+      description: Tool definition. Either a custom tool (function with input_schema) or a built-in server tool (typed by versioned `type`).
+      oneOf:
+      - $ref: '#/components/schemas/CustomTool'
+      - $ref: '#/components/schemas/ServerTool'
+    ThinkingDelta:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - thinking_delta
+        thinking:
+          type: string
+      required:
+      - type
+      - thinking
+    MessageDelta:
+      type: object
+      description: Top-level message delta carrying terminal stop_reason / stop_sequence.
+      properties:
+        stop_reason:
+          type: string
+          nullable: true
+          enum:
+          - end_turn
+          - max_tokens
+          - stop_sequence
+          - tool_use
+          - pause_turn
+          - refusal
+        stop_sequence:
+          type: string
+          nullable: true
+    InputJsonDelta:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - input_json_delta
+        partial_json:
+          type: string
+      required:
+      - type
+      - partial_json
+    EnabledThinkingConfig:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - enabled
+        budget_tokens:
+          type: integer
+          minimum: 1024
+      required:
+      - type
+      - budget_tokens
+    ToolChoiceTool:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - tool
+        name:
+          type: string
+        disable_parallel_tool_use:
+          type: boolean
+          nullable: true
+      required:
+      - type
+      - name
+    ImageSourceBase64:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - base64
+        media_type:
+          type: string
+          enum:
+          - image/jpeg
+          - image/png
+          - image/gif
+          - image/webp
+        data:
+          type: string
+          description: Base64-encoded image bytes.
+      required:
+      - type
+      - media_type
+      - data
+    ServerTool:
+      type: object
+      description: A provider-hosted built-in tool, identified by its versioned type (for example `web_search_20250305`, `code_execution_20250825`, `bash_20250124`, `text_editor_20250124`, or `memory_20250818`).
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - name
+    ImageSourceURL:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - url
+        url:
+          type: string
+          format: uri
+      required:
+      - type
+      - url
+    DisabledThinkingConfig:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - disabled
+      required:
+      - type
+    ContentBlockDelta:
+      oneOf:
+      - $ref: '#/components/schemas/TextDelta'
+      - $ref: '#/components/schemas/InputJsonDelta'
+      - $ref: '#/components/schemas/ThinkingDelta'
+      - $ref: '#/components/schemas/SignatureDelta'
+      - $ref: '#/components/schemas/CitationsDelta'
+      discriminator:
+        propertyName: type
+        mapping:
+          text_delta: '#/components/schemas/TextDelta'
+          input_json_delta: '#/components/schemas/InputJsonDelta'
+          thinking_delta: '#/components/schemas/ThinkingDelta'
+          signature_delta: '#/components/schemas/SignatureDelta'
+          citations_delta: '#/components/schemas/CitationsDelta'
+    ToolChoice:
+      description: Controls how the model selects tools.
+      oneOf:
+      - $ref: '#/components/schemas/ToolChoiceAuto'
+      - $ref: '#/components/schemas/ToolChoiceAny'
+      - $ref: '#/components/schemas/ToolChoiceTool'
+      - $ref: '#/components/schemas/ToolChoiceNone'
+      discriminator:
+        propertyName: type
+        mapping:
+          auto: '#/components/schemas/ToolChoiceAuto'
+          any: '#/components/schemas/ToolChoiceAny'
+          tool: '#/components/schemas/ToolChoiceTool'
+          none: '#/components/schemas/ToolChoiceNone'
+    InputMessage:
+      type: object
+      description: A single input message in the `messages` array.
+      properties:
+        role:
+          type: string
+          enum:
+          - user
+          - assistant
+        content:
+          description: Either a plain string or an array of content blocks.
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              $ref: '#/components/schemas/ContentBlock'
+      required:
+      - role
+      - content
+    ToolUseBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - tool_use
+        id:
+          type: string
+        name:
+          type: string
+        input:
+          type: object
+          description: Arguments passed to the tool, matching the input schema the client declared for it.
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - id
+      - name
+      - input
+    MessagesResponse:
+      type: object
+      description: Anthropic-native non-streaming Messages API response.
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - message
+        role:
+          type: string
+          enum:
+          - assistant
+        model:
+          type: string
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentBlock'
+        stop_reason:
+          type: string
+          nullable: true
+          enum:
+          - end_turn
+          - max_tokens
+          - stop_sequence
+          - tool_use
+          - pause_turn
+          - refusal
+        stop_sequence:
+          type: string
+          nullable: true
+        usage:
+          $ref: '#/components/schemas/Usage'
+        container:
+          $ref: '#/components/schemas/Container'
+          nullable: true
+      required:
+      - id
+      - type
+      - role
+      - content
+      - model
+      - usage
+    ContentBlockStopEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - content_block_stop
+        index:
+          type: integer
+      required:
+      - type
+      - index
+    CacheControlEphemeral:
+      type: object
+      description: 'Marks a caching breakpoint for prompt caching. Attach it to any cacheable element —
+
+        system text blocks, message content blocks, tool definitions, `tool_use`, `tool_result`,
+
+        `search_result`, or `document` blocks. A request may carry up to four such breakpoints.
+
+        When supplied at the top level, it is automatically applied to the last cacheable block.
+
+        '
+      properties:
+        type:
+          type: string
+          enum:
+          - ephemeral
+        ttl:
+          type: string
+          description: How long the cached prefix stays valid. Omitting it falls back to `5m`; `1h` works without any beta header.
+          enum:
+          - 5m
+          - 1h
+      required:
+      - type
+    ToolChoiceAny:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - any
+        disable_parallel_tool_use:
+          type: boolean
+          nullable: true
+      required:
+      - type
+    DocumentSourceText:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+        media_type:
+          type: string
+          enum:
+          - text/plain
+        data:
+          type: string
+      required:
+      - type
+      - media_type
+      - data
+    DocumentSource:
+      oneOf:
+      - $ref: '#/components/schemas/DocumentSourceBase64'
+      - $ref: '#/components/schemas/DocumentSourceURL'
+      - $ref: '#/components/schemas/DocumentSourceText'
+      - $ref: '#/components/schemas/DocumentSourceContent'
+    MessagesStreamEvent:
+      description: 'Anthropic-native Messages API SSE event. Discriminated by `type`. Forwarded byte-for-byte
+
+        from the upstream provider — public-api does not transform individual events.
+
+        '
+      oneOf:
+      - $ref: '#/components/schemas/MessageStartEvent'
+      - $ref: '#/components/schemas/ContentBlockStartEvent'
+      - $ref: '#/components/schemas/ContentBlockDeltaEvent'
+      - $ref: '#/components/schemas/ContentBlockStopEvent'
+      - $ref: '#/components/schemas/MessageDeltaEvent'
+      - $ref: '#/components/schemas/MessageStopEvent'
+      - $ref: '#/components/schemas/PingEvent'
+      - $ref: '#/components/schemas/ErrorEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          message_start: '#/components/schemas/MessageStartEvent'
+          content_block_start: '#/components/schemas/ContentBlockStartEvent'
+          content_block_delta: '#/components/schemas/ContentBlockDeltaEvent'
+          content_block_stop: '#/components/schemas/ContentBlockStopEvent'
+          message_delta: '#/components/schemas/MessageDeltaEvent'
+          message_stop: '#/components/schemas/MessageStopEvent'
+          ping: '#/components/schemas/PingEvent'
+          error: '#/components/schemas/ErrorEvent'
+    ImageBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - image
+        source:
+          $ref: '#/components/schemas/ImageSource'
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - source
+    DocumentSourceURL:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - url
+        url:
+          type: string
+          format: uri
+      required:
+      - type
+      - url
+    CacheCreation:
+      type: object
+      description: Breakdown of cache-write tokens split by cache lifetime tier.
+      properties:
+        ephemeral_5m_input_tokens:
+          type: integer
+        ephemeral_1h_input_tokens:
+          type: integer
+    SearchResultBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - search_result
+        source:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextBlock'
+        citations:
+          $ref: '#/components/schemas/CitationsConfig'
+          nullable: true
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - content
+    Metadata:
+      type: object
+      description: Optional request metadata passed through to the provider. The `user_id` field helps the provider associate the request with an end user.
+      properties:
+        user_id:
+          type: string
+          nullable: true
+    ImageSource:
+      oneOf:
+      - $ref: '#/components/schemas/ImageSourceBase64'
+      - $ref: '#/components/schemas/ImageSourceURL'
+    ContentBlockDeltaEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - content_block_delta
+        index:
+          type: integer
+        delta:
+          $ref: '#/components/schemas/ContentBlockDelta'
+      required:
+      - type
+      - index
+      - delta
+    SystemBlock:
+      type: object
+      description: A system prompt content block. Supports `cache_control` for caching the system prefix.
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+        text:
+          type: string
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - text
+    CustomTool:
+      type: object
+      description: A function tool that the client defines and implements.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        input_schema:
+          type: object
+          description: A JSON Schema object that defines the shape of the tool's input arguments.
+        type:
+          type: string
+          enum:
+          - custom
+          description: Optional type marker. Leave it out for legacy custom tools, or set it to `custom` when you need to be explicit.
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - name
+      - input_schema
+    Container:
+      type: object
+      description: Details of the execution container, included when the request used server-side code execution.
+      properties:
+        id:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - expires_at
+    Usage:
+      type: object
+      description: Token counts reported for the request.
+      properties:
+        input_tokens:
+          type: integer
+          description: Number of input tokens charged for the request, not counting any tokens read from cache.
+        output_tokens:
+          type: integer
+        cache_creation_input_tokens:
+          type: integer
+          nullable: true
+          description: Number of input tokens stored into the prompt cache during this request.
+        cache_read_input_tokens:
+          type: integer
+          nullable: true
+          description: Number of input tokens read back from the prompt cache, which are billed at a reduced rate.
+        cache_creation:
+          $ref: '#/components/schemas/CacheCreation'
+          nullable: true
+        service_tier:
+          type: string
+          nullable: true
+        server_tool_use:
+          $ref: '#/components/schemas/ServerToolUsage'
+          nullable: true
+        nexos_credits_cost:
+          type: number
+          format: double
+          description: Cost of the request in nexos credits.
+      required:
+      - input_tokens
+      - output_tokens
+    RedactedThinkingBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - redacted_thinking
+        data:
+          type: string
+      required:
+      - type
+      - data
+    ToolChoiceNone:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - none
+      required:
+      - type
+    DocumentBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - document
+        source:
+          $ref: '#/components/schemas/DocumentSource'
+        title:
+          type: string
+          nullable: true
+        context:
+          type: string
+          nullable: true
+        citations:
+          $ref: '#/components/schemas/CitationsConfig'
+          nullable: true
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - source
+    WebSearchToolResultBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - web_search_tool_result
+        tool_use_id:
+          type: string
+        content:
+          description: Either an array of search results or an error block.
+          oneOf:
+          - type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - web_search_result
+                url:
+                  type: string
+                title:
+                  type: string
+                encrypted_content:
+                  type: string
+                page_age:
+                  type: string
+                  nullable: true
+              required:
+              - type
+              - url
+              - title
+              - encrypted_content
+          - type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - web_search_tool_result_error
+              error_code:
+                type: string
+            required:
+            - type
+            - error_code
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - tool_use_id
+      - content
+    MessageStartEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - message_start
+        message:
+          $ref: '#/components/schemas/MessagesResponse'
+      required:
+      - type
+      - message
+    ThinkingBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - thinking
+        thinking:
+          type: string
+        signature:
+          type: string
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - thinking
+      - signature
+    SignatureDelta:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - signature_delta
+        signature:
+          type: string
+      required:
+      - type
+      - signature
+    CreateMessageRequest:
+      type: object
+      description: 'Anthropic-native Messages API request body. Forwarded byte-for-byte to the upstream
+
+        provider — `cache_control` markers are preserved exactly where the client placed them
+
+        (system blocks, message content blocks, tool definitions, top-level).
+
+        '
+      properties:
+        model:
+          type: string
+          description: Model identifier or alias resolved against the company's configured models. Must resolve to an Anthropic-provider model.
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputMessage'
+        system:
+          description: System prompt as a single string or as an array of text blocks (each may carry `cache_control`).
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              $ref: '#/components/schemas/SystemBlock'
+        max_tokens:
+          type: integer
+          minimum: 0
+          description: Maximum output tokens. Set to `0` to warm the prompt cache without generating output.
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 1
+          nullable: true
+        top_p:
+          type: number
+          nullable: true
+        top_k:
+          type: integer
+          nullable: true
+        stop_sequences:
+          type: array
+          nullable: true
+          items:
+            type: string
+        stream:
+          type: boolean
+          default: false
+          nullable: true
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+          nullable: true
+        tools:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Tool'
+        tool_choice:
+          $ref: '#/components/schemas/ToolChoice'
+          nullable: true
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+        thinking:
+          $ref: '#/components/schemas/ThinkingConfig'
+          nullable: true
+        service_tier:
+          type: string
+          enum:
+          - auto
+          - standard_only
+          nullable: true
+        container:
+          type: string
+          nullable: true
+      required:
+      - model
+      - messages
+      - max_tokens
+    ToolChoiceAuto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - auto
+        disable_parallel_tool_use:
+          type: boolean
+          nullable: true
+      required:
+      - type
+    ContentBlock:
+      description: 'A content block within a message''s `content` array. Discriminator is `type`.
+
+        Strict-typed concrete subtypes cover the full Anthropic Messages API surface;
+
+        `cache_control` is forwarded byte-for-byte where present.
+
+        '
+      oneOf:
+      - $ref: '#/components/schemas/TextBlock'
+      - $ref: '#/components/schemas/ImageBlock'
+      - $ref: '#/components/schemas/DocumentBlock'
+      - $ref: '#/components/schemas/ToolUseBlock'
+      - $ref: '#/components/schemas/ToolResultBlock'
+      - $ref: '#/components/schemas/ThinkingBlock'
+      - $ref: '#/components/schemas/RedactedThinkingBlock'
+      - $ref: '#/components/schemas/ServerToolUseBlock'
+      - $ref: '#/components/schemas/WebSearchToolResultBlock'
+      - $ref: '#/components/schemas/SearchResultBlock'
+      discriminator:
+        propertyName: type
+        mapping:
+          text: '#/components/schemas/TextBlock'
+          image: '#/components/schemas/ImageBlock'
+          document: '#/components/schemas/DocumentBlock'
+          tool_use: '#/components/schemas/ToolUseBlock'
+          tool_result: '#/components/schemas/ToolResultBlock'
+          thinking: '#/components/schemas/ThinkingBlock'
+          redacted_thinking: '#/components/schemas/RedactedThinkingBlock'
+          server_tool_use: '#/components/schemas/ServerToolUseBlock'
+          web_search_tool_result: '#/components/schemas/WebSearchToolResultBlock'
+          search_result: '#/components/schemas/SearchResultBlock'
+    DocumentSourceBase64:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - base64
+        media_type:
+          type: string
+          enum:
+          - application/pdf
+        data:
+          type: string
+      required:
+      - type
+      - media_type
+      - data
+    TextBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+        text:
+          type: string
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+        citations:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              cited_text:
+                type: string
+              document_index:
+                type: integer
+              document_title:
+                type: string
+                nullable: true
+              start_char_index:
+                type: integer
+              end_char_index:
+                type: integer
+              start_page_number:
+                type: integer
+              end_page_number:
+                type: integer
+              start_block_index:
+                type: integer
+              end_block_index:
+                type: integer
+            required:
+            - type
+      required:
+      - type
+      - text
+    ErrorEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
+          required:
+          - type
+          - message
+      required:
+      - type
+      - error
+    ToolResultBlock:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - tool_result
+        tool_use_id:
+          type: string
+        content:
+          description: Either a plain string or an array of text/image content blocks.
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              oneOf:
+              - $ref: '#/components/schemas/TextBlock'
+              - $ref: '#/components/schemas/ImageBlock'
+        is_error:
+          type: boolean
+          nullable: true
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - tool_use_id
+    ServerToolUseBlock:
+      type: object
+      description: A built-in tool call (such as `web_search` or `code_execution`) that the provider runs on its own side.
+      properties:
+        type:
+          type: string
+          enum:
+          - server_tool_use
+        id:
+          type: string
+        name:
+          type: string
+        input:
+          type: object
+        cache_control:
+          $ref: '#/components/schemas/CacheControlEphemeral'
+          nullable: true
+      required:
+      - type
+      - id
+      - name
+      - input
+    MessageStopEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - message_stop
+      required:
+      - type
+    PingEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - ping
+      required:
+      - type
+    ThinkingConfig:
+      description: Extended thinking configuration.
+      oneOf:
+      - $ref: '#/components/schemas/EnabledThinkingConfig'
+      - $ref: '#/components/schemas/DisabledThinkingConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          enabled: '#/components/schemas/EnabledThinkingConfig'
+          disabled: '#/components/schemas/DisabledThinkingConfig'
+    DocumentSourceContent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - content
+        content:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/TextBlock'
+            - $ref: '#/components/schemas/ImageBlock'
+      required:
+      - type
+      - content
+    TextDelta:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - text_delta
+        text:
+          type: string
+      required:
+      - type
+      - text
+    MessageDeltaEvent:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - message_delta
+        delta:
+          $ref: '#/components/schemas/MessageDelta'
+        usage:
+          $ref: '#/components/schemas/Usage'
+      required:
+      - type
+      - delta
+      - usage
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Batches API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Batches
+  description: Create and run large groups of requests asynchronously. Batches are only available for OpenAI models.
+paths:
+  /v1/batches:
+    post:
+      tags:
+      - Batches
+      operationId: post-batches-v1
+      summary: Create batch
+      description: 'Create and immediately start a batch from a file of requests that was uploaded beforehand.
+
+
+        Batches are only available for OpenAI models.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchesRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/BatchesResponse'
+        '400':
+          description: Invalid request data.
+        '500':
+          description: Server error.
+  /v1/batches/{batch_id}:
+    get:
+      tags:
+      - Batches
+      operationId: get-batch-v1
+      summary: Retrieve batch
+      description: Look up a single batch by its ID, including its current status and metadata.
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        description: The ID of the batch to retrieve
+        schema:
+          type: string
+      - name: model
+        in: query
+        schema:
+          type: string
+        deprecated: true
+      responses:
+        '200':
+          $ref: '#/components/responses/BatchesResponse'
+        '400':
+          description: Invalid batch ID format or malformed request
+        '404':
+          description: Batch not found
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    BatchesRequest:
+      type: object
+      properties:
+        input_file_id:
+          type: string
+          description: 'The ID of an uploaded file that contains requests for the new batch.
+
+
+            Your input file must be formatted as a JSONL file, and must be uploaded with the purpose set to "batch". The file can contain up to 50,000 requests, and can be up to 200 MB in size.
+
+            '
+        endpoint:
+          type: string
+          description: 'The endpoint to be used for all requests in the batch. Currently `/v1/chat/completions`, `/v1/embeddings`, and `/v1/completions` are supported.
+
+            '
+          enum:
+          - /v1/chat/completions
+          - /v1/embeddings
+          - /v1/completions
+        completion_window:
+          type: string
+          description: 'The time frame within which the batch should be processed. Currently only "24h" is supported.
+
+            '
+          enum:
+          - 24h
+          default: 24h
+        metadata:
+          type: object
+          description: 'Optional custom metadata for the batch. This can be useful for tracking and organizing batches.
+
+            '
+          additionalProperties:
+            type: string
+      required:
+      - input_file_id
+      - endpoint
+      - completion_window
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

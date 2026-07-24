@@ -1,0 +1,363 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Audio API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Audio
+  description: Generate audio or text from audio or text input.
+paths:
+  /v1/audio/speech:
+    post:
+      operationId: post-audio-speech-v1
+      summary: Create speech
+      tags:
+      - Audio
+      description: Generate speech audio from text.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeechRequest'
+      responses:
+        '200':
+          description: Successful response with an audio speech.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+  /v1/audio/transcriptions:
+    post:
+      operationId: post-audio-transcriptions-v1
+      summary: Create transcription
+      tags:
+      - Audio
+      description: Transcribe audio to text.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TranscriptionRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/TranscriptionResponseJson'
+                - $ref: '#/components/schemas/TranscriptionResponseVerboseJson'
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+  /v1/audio/translations:
+    post:
+      operationId: post-audio-translations-v1
+      summary: Create translation
+      tags:
+      - Audio
+      description: Translate audio to English text.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TranslationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/TranslationResponseJson'
+                - $ref: '#/components/schemas/TranslationResponseVerboseJson'
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+components:
+  schemas:
+    TranscriptionWord:
+      type: object
+      properties:
+        word:
+          type: string
+          description: The text content of the word.
+        start:
+          type: number
+          format: float
+          description: Start time of the word in seconds.
+        end:
+          type: number
+          format: float
+          description: End time of the word in seconds.
+    TranscriptionSegment:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier of the segment.
+        seek:
+          type: integer
+          description: Seek offset of the segment.
+        start:
+          type: number
+          format: float
+          description: Start time of the segment in seconds.
+        end:
+          type: number
+          format: float
+          description: End time of the segment in seconds.
+        text:
+          type: string
+          description: Text content of the segment.
+        tokens:
+          type: array
+          items:
+            type: integer
+          description: Array of token IDs for the text content.
+        temperature:
+          type: number
+          format: float
+          description: Temperature parameter used for generating the segment.
+        avg_logprob:
+          type: number
+          format: float
+          description: Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
+        compression_ratio:
+          type: number
+          format: float
+          description: Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+        no_speech_prob:
+          type: number
+          format: float
+          description: Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
+    TranslationResponseJson:
+      type: object
+      description: Represents a translation response returned by model, based on the provided input.
+      properties:
+        text:
+          type: string
+        model:
+          type: string
+          description: The model used for generating translation.
+    TranscriptionResponseJson:
+      type: object
+      description: Represents a transcription response returned by model, based on the provided input.
+      properties:
+        text:
+          type: string
+          description: The transcribed text.
+        model:
+          type: string
+          description: The model used for generating transcription.
+    TranslationResponseVerboseJson:
+      type: object
+      description: Represents a verbose translation response returned by model, based on the provided input.
+      properties:
+        language:
+          type: string
+          description: The language of the output translation (always `english`).
+        duration:
+          type: string
+          description: The duration of the input audio.
+        text:
+          type: string
+          description: The translated text.
+        segments:
+          type: array
+          description: Segments of the translated text and their corresponding details.
+          items:
+            $ref: '#/components/schemas/TranscriptionSegment'
+        model:
+          type: string
+          description: The model used for generating translation.
+    SpeechRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        model:
+          type: string
+        input:
+          type: string
+          description: The text to generate audio for.
+          maxLength: 4096
+        voice:
+          description: The voice to use when generating the audio.
+          type: string
+          enum:
+          - alloy
+          - echo
+          - fable
+          - onyx
+          - nova
+          - shimmer
+        response_format:
+          description: The format to output audio in.
+          default: mp3
+          type: string
+          enum:
+          - mp3
+          - opus
+          - aac
+          - flac
+          - wav
+          - pcm
+        speed:
+          description: The speed of the generated audio.
+          type: number
+          default: 1
+          minimum: 0.25
+          maximum: 4
+      required:
+      - model
+      - input
+      - voice
+    TranscriptionResponseVerboseJson:
+      type: object
+      description: Represents a verbose json transcription response returned by model, based on the provided input.
+      properties:
+        language:
+          type: string
+          description: The language of the input audio.
+        duration:
+          type: string
+          description: The duration of the input audio.
+        text:
+          type: string
+          description: The transcribed text.
+        words:
+          type: array
+          description: Extracted words and their corresponding timestamps.
+          items:
+            $ref: '#/components/schemas/TranscriptionWord'
+        segments:
+          type: array
+          description: Segments of the transcribed text and their corresponding details.
+          items:
+            $ref: '#/components/schemas/TranscriptionSegment'
+        model:
+          type: string
+          description: The model used for generating transcription.
+    TranscriptionRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+
+            '
+          type: string
+          format: binary
+        model:
+          type: string
+        language:
+          description: 'The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
+
+            '
+          type: string
+        prompt:
+          description: 'An optional text to guide the model''s style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should match the audio language.
+
+            '
+          type: string
+        response_format:
+          description: 'The format of the transcript output.
+
+            '
+          type: string
+          enum:
+          - json
+          - text
+          - srt
+          - verbose_json
+          - vtt
+          default: json
+        temperature:
+          description: 'The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
+
+            '
+          type: number
+          default: 0
+        timestamp_granularities[]:
+          description: 'The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.
+
+            '
+          type: array
+          items:
+            type: string
+            enum:
+            - word
+            - segment
+          default:
+          - segment
+      required:
+      - file
+      - model
+    TranslationRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+
+            '
+          type: string
+          format: binary
+        model:
+          type: string
+        prompt:
+          description: 'An optional text to guide the model''s style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should be in English.
+
+            '
+          type: string
+        response_format:
+          description: 'The format of the translated transcript output.
+
+            '
+          type: string
+          enum:
+          - json
+          - text
+          - srt
+          - verbose_json
+          - vtt
+          default: json
+        temperature:
+          description: 'The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
+
+            '
+          type: number
+          default: 0
+      required:
+      - file
+      - model
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

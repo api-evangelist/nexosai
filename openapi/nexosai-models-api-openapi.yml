@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Models API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Models
+  description: List available models.
+paths:
+  /v1/models:
+    get:
+      operationId: get-user-models-v1
+      summary: List models
+      description: List all models available to the user.
+      tags:
+      - Models
+      responses:
+        '200':
+          $ref: '#/components/responses/UserModelsResponse'
+        '404':
+          description: User not found.
+  /v1/management/models/{model}/fallbacks:
+    get:
+      operationId: get-model-fallbacks-v1
+      summary: Get fallbacks configuration for particular model
+      description: Fallback configuration for a specific model. Fallbacks are tried in the order the model IDs are provided in the list.
+      tags:
+      - Models
+      parameters:
+      - name: model
+        in: path
+        required: true
+        description: The ID of the model.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Model fallbacks configuration found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelFallbacksConfiguration'
+        '400':
+          description: Invalid request.
+    post:
+      operationId: post-model-fallbacks-v1
+      summary: Add fallbacks configuration for particular model
+      description: Add fallback configuration for a specific model. Fallbacks are tried in the order the model IDs are provided in the list.
+      tags:
+      - Models
+      parameters:
+      - name: model
+        in: path
+        required: true
+        description: The ID of the model.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelFallbacksRequest'
+      responses:
+        '201':
+          description: Model fallbacks configuration successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelFallbacksConfiguration'
+        '400':
+          description: Invalid request or fallback configurations already associated with the model.
+        '404':
+          description: Model not found.
+    delete:
+      operationId: delete-model-fallbacks-v1
+      summary: Delete model fallbacks configuration
+      description: Delete model fallbacks configuration
+      tags:
+      - Models
+      parameters:
+      - name: model
+        in: path
+        required: true
+        description: The ID of the model.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Model fallbacks configuration deleted successfully
+        '400':
+          description: Invalid request.
+    patch:
+      operationId: update-model-fallbacks-v1
+      summary: Update fallbacks configuration for particular model
+      description: Update the fallback configuration for a specific model. Fallbacks are tried in the order the model IDs are provided in the list.
+      tags:
+      - Models
+      parameters:
+      - name: model
+        in: path
+        required: true
+        description: The ID of the model.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelFallbacksRequest'
+      responses:
+        '200':
+          description: Model fallbacks configuration successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelFallbacksConfiguration'
+        '400':
+          description: Invalid request.
+components:
+  schemas:
+    ModelFallbacksConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the model
+        fallback_ids:
+          $ref: '#/components/schemas/ModelFallbacks'
+        created_at:
+          type: string
+          format: date-time
+          description: The time the model fallbacks configuration was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The time the model fallbacks configuration was last updated.
+      required:
+      - id
+    ModelFallbacks:
+      type: array
+      items:
+        type: string
+        format: uuid
+        description: The ID of the model to associate with the company.
+    ModelFallbacksRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/ModelFallbacks'
+      required:
+      - models
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

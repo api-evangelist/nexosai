@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Storage API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Storage
+  description: Upload and manage media files.
+paths:
+  /v1/storage:
+    get:
+      operationId: get-storage-files-v1
+      summary: List uploaded media files
+      tags:
+      - Storage
+      description: List uploaded files.
+      parameters:
+      - name: after
+        in: query
+        description: A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: A limit on the number of objects to be returned. Limit can range between 1 and 10,000, and the default is 10,000.
+        required: false
+        schema:
+          type: integer
+          format: uint32
+          default: 10000
+      - name: order
+        in: query
+        description: Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: purpose
+        in: query
+        description: Only return files with the given purpose.
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilePurposeType'
+      responses:
+        '200':
+          description: Successful response with list of files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list_files_ListFilesResponse'
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+    post:
+      operationId: post-storage-files-v1
+      summary: Upload media file
+      tags:
+      - Storage
+      description: Upload a media file for later use.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/upload_file_UploadFileRequest'
+      responses:
+        '200':
+          description: Successful response with file upload details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/file_FileResponse'
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+  /v1/storage/{file_id}:
+    get:
+      operationId: get-storage-file-v1
+      summary: Get storage file
+      tags:
+      - Storage
+      description: Retrieve file details by ID.
+      parameters:
+      - name: file_id
+        description: The ID of the file to use for this request.
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with file details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/file_FileResponse'
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+    delete:
+      operationId: delete-storage-file-v1
+      summary: Delete storage file
+      tags:
+      - Storage
+      description: Delete a file by ID.
+      parameters:
+      - name: file_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with deletion status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deletion_status_DeletionStatusResponse'
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+  /v1/storage/{file_id}/content:
+    get:
+      operationId: get-storage-file-contents-v1
+      summary: Get storage file contents
+      tags:
+      - Storage
+      description: Download file contents by ID.
+      parameters:
+      - name: file_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with file contents
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+components:
+  schemas:
+    list_files_ListFilesResponse:
+      type: object
+      description: A list of uploaded files.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/file_FileResponse'
+        object:
+          type: string
+          enum:
+          - list
+      required:
+      - data
+    FilePurposeType:
+      type: string
+      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
+      enum:
+      - batch
+    file_FileResponse:
+      type: object
+      description: The File object represents a document that has been uploaded to OpenAI.
+      properties:
+        bytes:
+          type: integer
+          description: The size of the file, in bytes.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the file was created.
+        filename:
+          type: string
+          description: The name of the file.
+        id:
+          type: string
+          description: The file identifier, which can be referenced in the API endpoints.
+        purpose:
+          type: string
+          description: The intended purpose of the file.
+          enum:
+          - assistants
+          - assistants_output
+          - batch
+          - batch_output
+          - fine-tune
+          - fine-tune-results
+          - vision
+        status:
+          type: string
+          description: The status of the file.
+          enum:
+          - error
+          - processed
+          - uploaded
+        object:
+          type: string
+          enum:
+          - file
+    deletion_status_DeletionStatusResponse:
+      type: object
+      description: The status of a file deletion.
+      properties:
+        id:
+          type: string
+          description: The file identifier.
+        deleted:
+          type: boolean
+          description: Indicates whether the file has been deleted.
+      required:
+      - id
+      - deleted
+    upload_file_UploadFileRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The File object (not file name) to be uploaded.
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+      required:
+      - file
+      - purpose
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

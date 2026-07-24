@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Company Management API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Company Management
+  description: List company API keys and their usage.
+paths:
+  /v1/companies/{companyId}/api_keys/with_usage:
+    get:
+      operationId: get-company-api-keys-with-usage-v1
+      tags:
+      - Company Management
+      summary: List all company API keys with last usage time
+      description: Returns all API keys (user and team) for the company with pagination and sorting.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Number of records per page.
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        required: false
+        description: Number of records to skip.
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort_by_field
+        in: query
+        required: false
+        description: 'Sort field: name, key_owner, last_used_at, status.'
+        schema:
+          type: string
+          enum:
+          - name
+          - key_owner
+          - budget_used
+          - budget_limit
+          - status
+          - last_used_at
+      - name: sort_by_order
+        in: query
+        required: false
+        description: 'Sort order: asc, desc.'
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: name
+        in: query
+        required: false
+        description: Filter by API key name (partial match).
+        schema:
+          type: string
+      - name: owner_uuid
+        in: query
+        required: false
+        description: Filter by owner UUID (user or team).
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/CompanyAPIKeysResponse'
+  /v1/companies/{companyId}/users/api_keys/with_usage:
+    get:
+      operationId: get-company-user-api-keys-with-usage-v1
+      tags:
+      - Company Management
+      summary: List company user API keys aggregated by owner
+      description: Returns the company's user API keys aggregated by owner, with usage and budget information.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - name: offset
+        in: query
+        required: false
+        description: Number of items to skip.
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort_by_field
+        in: query
+        required: false
+        description: 'Field to sort by: owner_name, status, key_count, budget_used, budget_limit.'
+        schema:
+          type: string
+          enum:
+          - owner_name
+          - key_count
+          - budget_used
+          - budget_limit
+      - name: sort_by_order
+        in: query
+        required: false
+        description: 'Sort order: asc, desc.'
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: owner_name
+        in: query
+        required: false
+        description: Filter by owner name (partial match).
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/UserAPIKeyOwnersResponse'
+  /v1/companies/{companyId}/users/{userId}/api_keys/with_usage:
+    get:
+      operationId: list-user-api-keys-with-usage-v1
+      tags:
+      - Company Management
+      summary: List user API keys with last usage time
+      description: Returns all API keys of a specific user in the company, with last usage time.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: userId
+        in: path
+        required: true
+        description: The UUID of the user.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - name: offset
+        in: query
+        required: false
+        description: Number of items to skip.
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: name
+        in: query
+        required: false
+        description: Filter by API key name (partial match).
+        schema:
+          type: string
+      - name: sort_by_field
+        in: query
+        required: false
+        description: 'Field to sort by: name, owner_name, last_used_at, status, budget_limit, budget_used.'
+        schema:
+          type: string
+          enum:
+          - name
+          - last_used_at
+          - owner_name
+          - status
+      - name: sort_by_order
+        in: query
+        required: false
+        description: 'Sort order: asc, desc.'
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          $ref: '#/components/responses/UserAPIKeysWithUsageResponse'
+  /v1/companies/{companyId}/teams/api_keys/with_usage:
+    get:
+      operationId: get-company-team-api-keys-with-usage-v1
+      tags:
+      - Company Management
+      summary: List company team API keys aggregated by team
+      description: Returns the company's team API keys aggregated by team, with usage and budget information.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - name: offset
+        in: query
+        required: false
+        description: Number of items to skip.
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort_by_field
+        in: query
+        required: false
+        description: 'Field to sort by: team_name, status, key_count, budget_used, budget_limit.'
+        schema:
+          type: string
+          enum:
+          - team_name
+          - key_count
+          - budget_used
+          - budget_limit
+      - name: sort_by_order
+        in: query
+        required: false
+        description: 'Sort order: asc, desc.'
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: team_name
+        in: query
+        required: false
+        description: Filter by team name (partial match).
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/TeamAPIKeyOwnersResponse'
+  /v1/companies/{companyId}/teams/{teamId}/api_keys/with_usage:
+    get:
+      operationId: list-team-api-keys-with-usage-v1
+      tags:
+      - Company Management
+      summary: List team API keys with last usage time
+      description: Returns all API keys of a specific team in the company, with last usage time.
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        description: The UUID of the company.
+        schema:
+          type: string
+      - name: teamId
+        in: path
+        required: true
+        description: The UUID of the team.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+      - name: offset
+        in: query
+        required: false
+        description: Number of items to skip.
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: name
+        in: query
+        required: false
+        description: Filter by API key name (partial match).
+        schema:
+          type: string
+      - name: sort_by_field
+        in: query
+        required: false
+        description: 'Field to sort by: name, owner_name, last_used_at.'
+        schema:
+          type: string
+          enum:
+          - name
+          - last_used_at
+          - owner_name
+      - name: sort_by_order
+        in: query
+        required: false
+        description: 'Sort order: asc, desc.'
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          $ref: '#/components/responses/TeamAPIKeysWithUsageResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

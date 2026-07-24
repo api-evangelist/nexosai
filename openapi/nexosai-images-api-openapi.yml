@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Images API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Images
+  description: Generate images from image or text input.
+paths:
+  /v1/images/generations:
+    post:
+      operationId: post-images-generations-v1
+      summary: Create image
+      tags:
+      - Images
+      description: Generate images from a text prompt.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImagesGenerationsRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ImagesResponse'
+        '400':
+          description: Invalid request data.
+        '402':
+          $ref: '#/components/responses/OutOfCredits'
+        '500':
+          description: Server error.
+components:
+  schemas:
+    ImagesGenerationsRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        prompt:
+          description: A text description of the desired image(s).
+          type: string
+        model:
+          type: string
+        n:
+          type: integer
+          minimum: 1
+          maximum: 10
+          nullable: true
+          description: The number of images to generate. Must be between 1 and 10.
+        quality:
+          description: The quality of the generated images.
+          type: string
+          enum:
+          - standard
+          - hd
+          default: standard
+        response_format:
+          description: The format of the generated images.
+          type: string
+          enum:
+          - url
+          - b64_json
+          default: url
+          nullable: true
+        size:
+          description: The size of the generated images.
+          type: string
+          enum:
+          - 256x256
+          - 512x512
+          - 1024x1024
+          - 1792x1024
+          - 1024x1792
+          nullable: true
+        style:
+          description: The style of the generated images.
+          type: string
+          enum:
+          - vivid
+          - natural
+          default: vivid
+          nullable: true
+      required:
+      - prompt
+      - model
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'

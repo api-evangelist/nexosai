@@ -1,0 +1,269 @@
+openapi: 3.0.0
+info:
+  title: Nexos AI Public API Production Agent Management Files API
+  version: 1.0.0
+  description: Manage agents.
+servers:
+- url: https://api.nexos.ai
+security:
+- bearerAuth: []
+- apiKeyHeader: []
+tags:
+- name: Files
+  description: Upload and manage files used by other endpoints.
+paths:
+  /v1/files:
+    get:
+      operationId: get-files-v1
+      summary: List files
+      tags:
+      - Files
+      description: Return the list of files that have been uploaded.
+      parameters:
+      - name: after
+        in: query
+        description: A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: A limit on the number of objects to be returned. Limit can range between 1 and 10,000, and the default is 10,000.
+        required: false
+        schema:
+          type: integer
+          format: uint32
+          minimum: 1
+          default: 10000
+      - name: order
+        in: query
+        description: Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: purpose
+        in: query
+        description: Only return files with the given purpose.
+        required: false
+        schema:
+          $ref: '#/components/schemas/FilePurposeType'
+      responses:
+        '200':
+          description: Successful response with list of files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFilesResponse'
+        '500':
+          description: Server error.
+        4XX:
+          description: Client error.
+    post:
+      operationId: post-files-v1
+      summary: Upload file
+      tags:
+      - Files
+      description: Upload a file that other endpoints can reference, such as the request file consumed by the Batch API.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
+      responses:
+        '200':
+          description: Successful response with file upload details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse'
+        '400':
+          description: Invalid request data.
+        '500':
+          description: Server error.
+  /v1/files/{file_id}:
+    get:
+      operationId: get-file-v1
+      summary: Get file
+      tags:
+      - Files
+      description: Return the metadata for a single file by its ID.
+      parameters:
+      - name: file_id
+        description: The ID of the file to use for this request.
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with file details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse'
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+    delete:
+      operationId: delete-file-v1
+      summary: Delete file
+      tags:
+      - Files
+      description: Permanently delete a single file by its ID.
+      parameters:
+      - name: file_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with deletion status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionStatusResponse'
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+  /v1/files/{file_id}/content:
+    get:
+      operationId: get-file-contents-v1
+      summary: Get file contents
+      tags:
+      - Files
+      description: Download the raw contents of a single file by its ID.
+      parameters:
+      - name: file_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with file contents
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found.
+        '500':
+          description: Server error.
+components:
+  schemas:
+    FilePurposeType:
+      type: string
+      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
+      enum:
+      - batch
+    DeletionStatusResponse:
+      type: object
+      description: The status of a file deletion.
+      properties:
+        id:
+          type: string
+          description: The file identifier.
+        object:
+          type: string
+          description: The object type, which is always file.
+          enum:
+          - file
+        deleted:
+          type: boolean
+          description: Indicates whether the file has been deleted.
+      required:
+      - id
+      - object
+      - deleted
+    ListFilesResponse:
+      type: object
+      description: A list of uploaded files.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileResponse'
+        object:
+          type: string
+          description: The object type, which is always list.
+          enum:
+          - list
+        hasMore:
+          type: boolean
+          description: Indicates if there are more items to be fetched.
+        firstId:
+          type: string
+          description: The ID of the first item in the list.
+        lastId:
+          type: string
+          description: The ID of the last item in the list.
+      required:
+      - data
+      - object
+    FileResponse:
+      type: object
+      description: A document that has been uploaded and can be referenced by other endpoints.
+      properties:
+        bytes:
+          type: integer
+          description: The size of the file, in bytes.
+        created_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the file was created.
+        expires_at:
+          type: integer
+          description: The Unix timestamp (in seconds) for when the file will expire.
+        filename:
+          type: string
+          description: The name of the file.
+        id:
+          type: string
+          description: The file identifier, which can be referenced in the API endpoints.
+        object:
+          type: string
+          description: The object type, which is always "file".
+          enum:
+          - file
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+        status:
+          type: string
+          description: Deprecated. The current status of the file.
+          deprecated: true
+          enum:
+          - uploaded
+          - processed
+          - error
+    UploadFileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The File object (not file name) to be uploaded.
+
+            '
+          type: string
+          format: binary
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+      required:
+      - file
+      - purpose
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key: nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key` takes precedence.'
