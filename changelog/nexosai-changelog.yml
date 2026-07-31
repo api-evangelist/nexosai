@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.nexos.ai/changelog/changelog/latest-updates
+scheme: dated
+entries:
+- date: '2026-06-29'
+  highlights:
+  - Human-in-the-Loop (HITL) Approvals — pause before actions that change external tools; approve/decline/always-approve
+    per agent
+  - Web Scraper now processes URLs from web-search results, uploaded text files, and Agent instructions
+- date: '2026-06-18'
+  highlights:
+  - Access nexos.ai directly from Slack, Telegram, and WhatsApp (connect via Settings > My apps)
+- date: '2026-06-01'
+  highlights:
+  - 'Higher chat file-upload limits: 25 MB/file, 200 MB total per chat, unlimited files per chat'

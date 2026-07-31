@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://docs.nexos.ai/gateway-api.md
+- openapi/nexosai-gateway-openapi-original.yml
+authentication:
+  style: API key or bearer token
+  header: 'X-Api-Key (or Authorization: Bearer)'
+  key_prefixes:
+    user: nexos-
+    team: nexos-team-
+  notes: If both X-Nexos-Key and X-Api-Key are sent, X-Nexos-Key takes precedence. Keys can be rotated
+    (old key deprecated).
+  ref: authentication/nexosai-authentication.yml
+openai_compatibility:
+  compatible: true
+  detail: 'The Gateway API is OpenAI-compatible: point the official OpenAI Python/Go SDKs (or any OpenAI-compatible
+    client) at base_url https://api.nexos.ai and authenticate with a nexos.ai API key.'
+  base_url: https://api.nexos.ai
+versioning:
+  scheme: uri-path
+  current: v1
+  example: https://api.nexos.ai/v1/chat/completions
+  ref: lifecycle/nexosai-lifecycle.yml
+pagination:
+  style: cursor-and-offset
+  params:
+  - limit
+  - offset
+  - order
+  - after
+  - starting_after
+  notes: OpenAI-style cursor params (after/starting_after) alongside limit/offset/order on list endpoints.
+idempotency:
+  supported: false
+  notes: No documented Idempotency-Key header on the Gateway API as harvested.
+rate_limiting:
+  notes: Usage is governed by subscription tier plus purchased API credits and per-key/team/company budget
+    limits (Budget Limit Management endpoints); no explicit rate-limit header documented in the harvested
+    spec.
+errors:
+  envelope: Standard JSON error body
+  ref: errors/nexosai-problem-types.yml
+governance:
+  budget_limits: Per company/team/user budget limits enforced via /v1/companies/{companyId}/budget_limits
+  guardrails: Organization guardrails control allowed model behavior (workspace-level)

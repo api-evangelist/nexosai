@@ -1,0 +1,15 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for nexos.ai Gateway API
+  version: 1.0.0
+extends: openapi/nexosai-gateway-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-harvested-from: https://docs.nexos.ai/ (GitBook embedded OpenAPI blocks)
+    x-apievangelist-openai-compatible: true
+    x-apievangelist-base-url: https://api.nexos.ai
+- target: $.info
+  update:
+    description: nexos.ai Gateway API — an OpenAI-compatible enterprise AI gateway unifying many LLM providers
+      behind one API key, with team/user/company governance, budget limits, and guardrails.

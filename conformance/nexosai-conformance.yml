@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: derived
+source:
+- openapi/nexosai-gateway-openapi-original.yml
+- https://trust.nexos.ai/
+standards:
+- id: openai-compatible
+  conforms: true
+  evidence: Gateway API mirrors OpenAI chat/completions, embeddings, images, audio, batches, files, responses
+    shapes; official OpenAI SDKs work against base_url https://api.nexos.ai
+- id: oauth2
+  conforms: false
+  evidence: securitySchemes are http bearer + apiKey header (X-Api-Key); no oauth2 flows declared
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors returned as standard JSON, not application/problem+json
+- id: pagination
+  conforms: true
+  evidence: cursor + offset pagination params on list endpoints
+- id: idempotency
+  conforms: false
+  evidence: no Idempotency-Key header documented
+- id: soc2
+  conforms: true
+  evidence: SOC 2 published on trust.nexos.ai
+- id: iso-27001
+  conforms: true
+  evidence: ISO/IEC 27001 published on trust.nexos.ai
+- id: gdpr
+  conforms: true
+  evidence: GDPR published on trust.nexos.ai

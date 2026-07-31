@@ -1,0 +1,81 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/nexosai-gateway-openapi-original.yml
+id_reference_fields:
+- companyId
+- teamId
+- userId
+- keyId
+- model
+- response_id
+- batch_id
+- file_id
+entities:
+- name: Company
+  id_field: companyId
+  description: Top-level organization/tenant.
+- name: Team
+  id_field: teamId
+  description: A team within a company; owns API keys and model settings.
+- name: User
+  id_field: userId
+  description: A user within a company; owns personal API keys.
+- name: ApiKey
+  id_field: keyId
+  description: User or team API key (prefix nexos- / nexos-team-); rotatable.
+- name: BudgetLimit
+  description: Spend limit bound to a company/team/user.
+- name: Model
+  id_field: model
+  description: An AI model exposed through the gateway, with fallbacks.
+- name: Agent
+  description: Reusable AI helper (Agent Builder).
+- name: Assistant
+  description: Assistant configuration.
+- name: Response
+  id_field: response_id
+  description: A stored response (Responses API).
+- name: Message
+  description: A chat/message payload.
+- name: Batch
+  id_field: batch_id
+  description: Asynchronous batch job.
+- name: File
+  id_field: file_id
+  description: Uploaded file (Files/Storage).
+relationships:
+- from: Company
+  type: has_many
+  to: Team
+  via: companyId
+- from: Company
+  type: has_many
+  to: User
+  via: companyId
+- from: Company
+  type: has_many
+  to: BudgetLimit
+  via: companyId
+- from: Team
+  type: has_many
+  to: ApiKey
+  via: teamId
+- from: User
+  type: has_many
+  to: ApiKey
+  via: keyId
+- from: Model
+  type: has_many
+  to: Model
+  via: fallbacks
+  note: model fallback chain
+- from: Response
+  type: has_many
+  to: Message
+  via: response_id
+  note: input items
+- from: Batch
+  type: has_many
+  to: File
+  via: batch_id
+  note: batch input/output files

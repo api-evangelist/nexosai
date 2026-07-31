@@ -1,0 +1,69 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/nexosai-gateway-openapi-original.yml
+format: json
+envelope: Standard JSON error body (not application/problem+json); errors carry an HTTP status plus a
+  JSON message/description.
+docs: https://docs.nexos.ai/gateway-api.md
+notable: 402 Payment Required is used when the account lacks a paid subscription or purchased API credits
+  (API credits are a separate add-on).
+problems:
+- status: '400'
+  title: Bad request
+  description: Invalid request data.
+  remediation: Validate the request body/parameters against the OpenAPI schema before retrying.
+  seen_on:
+  - post-audio-speech-v1
+  - post-audio-transcriptions-v1
+  - post-audio-translations-v1
+  - post-batches-v1
+  - get-batch-v1
+  - put-company-budget-limits-v1
+- status: '401'
+  title: Unauthorized
+  description: Unauthorized — request not authenticated via API key.
+  remediation: 'Send a valid API key in the `X-Api-Key` header or `Authorization: Bearer` token.'
+  seen_on:
+  - rotate-api-key-v1
+- status: '402'
+  title: Payment required
+  description: ''
+  remediation: API usage requires a paid subscription AND purchased API credits — add API credits in Settings
+    > Billing.
+  seen_on:
+  - post-audio-speech-v1
+  - post-audio-transcriptions-v1
+  - post-audio-translations-v1
+  - post-chat-completions-v1
+  - post-embeddings-v1
+  - post-images-generations-v1
+- status: '404'
+  title: Not found
+  description: Agent not found.
+  remediation: Verify the resource id (agent, team, key, file, response, batch) exists and is in scope
+    of your key.
+  seen_on:
+  - get-agents-v1
+  - get-assistants-v1
+  - get-batch-v1
+  - delete-company-budget-limits-v1
+  - get-file-v1
+  - delete-file-v1
+- status: 4XX
+  title: Client error
+  description: Client error.
+  remediation: Inspect the response body for the specific client error.
+  seen_on:
+  - get-company-budget-limits-v1
+  - get-files-v1
+- status: '500'
+  title: Server error
+  description: Server error.
+  remediation: Transient server error — retry with backoff; contact support if it persists.
+  seen_on:
+  - post-audio-speech-v1
+  - post-audio-transcriptions-v1
+  - post-audio-translations-v1
+  - post-batches-v1
+  - get-batch-v1
+  - get-company-budget-limits-v1

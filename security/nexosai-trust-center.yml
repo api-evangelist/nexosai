@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://trust.nexos.ai/
+url: https://trust.nexos.ai/
+certifications:
+- SOC 2
+- ISO 27001
+- GDPR
+evidence:
+- source: https://trust.nexos.ai/
+  keywords:
+  - soc 2
+  - iso/iec 27001
+  - trust center
+  - gdpr

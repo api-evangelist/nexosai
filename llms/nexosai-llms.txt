@@ -1,0 +1,117 @@
+# nexos.ai documentation
+
+## Docs
+
+- [Getting started](https://docs.nexos.ai/readme.md)
+- [Workspace](https://docs.nexos.ai/workspace.md): nexos.ai is a chat interface that allows users to interact with different AI models. Users can create chats, select models based on their capabilities, and interact through text, files, etc.
+- [Chat](https://docs.nexos.ai/workspace/chat.md)
+- [File generation & analysis](https://docs.nexos.ai/workspace/chat/file-generation-and-analysis.md)
+- [Smart Routing](https://docs.nexos.ai/workspace/chat/smart-routing.md)
+- [Deep Research](https://docs.nexos.ai/workspace/chat/deep-research.md)
+- [Memory and Personalization](https://docs.nexos.ai/workspace/chat/memory-and-personalization.md)
+- [Interactive Chat](https://docs.nexos.ai/workspace/chat/interactive-chat.md)
+- [File Previews](https://docs.nexos.ai/workspace/chat/file-previews.md)
+- [Projects](https://docs.nexos.ai/workspace/projects.md)
+- [Agents](https://docs.nexos.ai/workspace/agents.md): Agents let you create reusable AI helpers with a defined purpose and model. Each one runs with your rules, specific tools, integrations and knowledge.
+- [Agent Builder](https://docs.nexos.ai/workspace/agents/agent-builder.md): Agent Builder is the no-code solution for creating powerful Agents within nexos.ai. Configure Agents with specific instructions to delegate your repetitive work.
+- [Human-in-the-Loop (HITL) Approvals](https://docs.nexos.ai/workspace/agents/human-in-the-loop-hitl-approvals.md)
+- [Prompt library](https://docs.nexos.ai/workspace/agents/prompt-library.md)
+- [Troubleshooting](https://docs.nexos.ai/workspace/troubleshooting.md)
+- [Settings](https://docs.nexos.ai/workspace/settings.md)
+- [User Settings](https://docs.nexos.ai/workspace/settings/user-settings.md)
+- [Preferences](https://docs.nexos.ai/workspace/settings/user-settings/preferences.md)
+- [Account](https://docs.nexos.ai/workspace/settings/user-settings/account.md)
+- [My Apps](https://docs.nexos.ai/workspace/settings/user-settings/my-apps.md)
+- [My Integrations](https://docs.nexos.ai/workspace/settings/user-settings/my-integrations.md)
+- [API Keys](https://docs.nexos.ai/workspace/settings/user-settings/api-keys.md)
+- [Organization](https://docs.nexos.ai/workspace/settings/organization.md)
+- [Guardrails](https://docs.nexos.ai/workspace/settings/organization/guardrails.md): Guardrails control what your AI models can and cannot do. Set them up to prevent unwanted outputs and enforce your rules.
+- [Models](https://docs.nexos.ai/workspace/settings/organization/models.md)
+- [Teams](https://docs.nexos.ai/workspace/settings/organization/teams.md)
+- [Users](https://docs.nexos.ai/workspace/settings/organization/users.md)
+- [Billing](https://docs.nexos.ai/workspace/settings/organization/billing.md)
+- [API credits add-on](https://docs.nexos.ai/workspace/settings/organization/billing/api-credits-add-on.md)
+- [Observability](https://docs.nexos.ai/workspace/settings/observability.md)
+- [Integrations](https://docs.nexos.ai/workspace/integrations.md): Connect Nexos.ai with external tools to streamline workflows and access knowledge bases directly.
+- [Atlassian](https://docs.nexos.ai/workspace/integrations/atlassian.md)
+- [GitHub](https://docs.nexos.ai/workspace/integrations/github.md)
+- [Google Calendar](https://docs.nexos.ai/workspace/integrations/google-calendar.md)
+- [Google Drive](https://docs.nexos.ai/workspace/integrations/google-drive.md)
+- [Google Mail](https://docs.nexos.ai/workspace/integrations/google-mail.md)
+- [HiBob](https://docs.nexos.ai/workspace/integrations/hibob.md)
+- [Looker](https://docs.nexos.ai/workspace/integrations/looker.md)
+- [Microsoft Calendar](https://docs.nexos.ai/workspace/integrations/microsoft-calendar.md)
+- [Microsoft OneDrive](https://docs.nexos.ai/workspace/integrations/microsoft-onedrive.md)
+- [Microsoft Outlook](https://docs.nexos.ai/workspace/integrations/microsoft-outlook.md)
+- [Microsoft SharePoint](https://docs.nexos.ai/workspace/integrations/microsoft-sharepoint.md)
+- [Microsoft Teams](https://docs.nexos.ai/workspace/integrations/microsoft-teams.md)
+- [Slack](https://docs.nexos.ai/workspace/integrations/slack.md)
+- [Google Ads](https://docs.nexos.ai/workspace/integrations/google-ads.md)
+- [Google BigQuery](https://docs.nexos.ai/workspace/integrations/google-bigquery.md)
+- [GitLab](https://docs.nexos.ai/workspace/integrations/gitlab.md)
+- [Gateway API](https://docs.nexos.ai/gateway-api.md)
+- [API Keys](https://docs.nexos.ai/gateway-api/api-keys.md)
+- [Chat](https://docs.nexos.ai/gateway-api/chat.md)
+- [Messages](https://docs.nexos.ai/gateway-api/messages.md)
+- [Responses](https://docs.nexos.ai/gateway-api/responses.md)
+- [Batches](https://docs.nexos.ai/gateway-api/batches.md)
+- [Files](https://docs.nexos.ai/gateway-api/files.md)
+- [Audio](https://docs.nexos.ai/gateway-api/audio.md)
+- [Images](https://docs.nexos.ai/gateway-api/images.md)
+- [Embeddings](https://docs.nexos.ai/gateway-api/embeddings.md)
+- [Storage](https://docs.nexos.ai/gateway-api/storage.md)
+- [Models](https://docs.nexos.ai/gateway-api/models.md)
+- [Team Management](https://docs.nexos.ai/gateway-api/team-management.md)
+- [User Management](https://docs.nexos.ai/gateway-api/user-management.md)
+- [Agent Management](https://docs.nexos.ai/gateway-api/agent-management.md)
+- [Assistant Management](https://docs.nexos.ai/gateway-api/assistant-management.md)
+- [Company Management](https://docs.nexos.ai/gateway-api/company-management.md)
+- [Budget Limit Management](https://docs.nexos.ai/gateway-api/budget-limit-management.md)
+- [Integrations](https://docs.nexos.ai/gateway-api/integrations.md)
+- [Codex CLI](https://docs.nexos.ai/gateway-api/integrations/codex-cli.md)
+- [CrewAI](https://docs.nexos.ai/gateway-api/integrations/crewai.md)
+- [OpenCode](https://docs.nexos.ai/gateway-api/integrations/opencode.md)
+- [Claude Code](https://docs.nexos.ai/gateway-api/integrations/claude-code.md)
+- [Claud Cowork](https://docs.nexos.ai/gateway-api/integrations/claud-cowork.md)
+- [Bubble](https://docs.nexos.ai/gateway-api/integrations/bubble.md)
+- [Gitlab CI](https://docs.nexos.ai/gateway-api/integrations/gitlab-ci.md)
+- [OpenAI Agents SDK](https://docs.nexos.ai/gateway-api/integrations/openai-agents-sdk.md)
+- [Vercel AI SDK](https://docs.nexos.ai/gateway-api/integrations/vercel-ai-sdk.md)
+- [Streamlit](https://docs.nexos.ai/gateway-api/integrations/streamlit.md)
+- [IntelliJ via ProxyAIPage](https://docs.nexos.ai/gateway-api/integrations/intellij-via-proxyaipage.md)
+- [Langfuse](https://docs.nexos.ai/gateway-api/integrations/langfuse.md)
+- [LangGraph](https://docs.nexos.ai/gateway-api/integrations/langgraph.md)
+- [LangChain](https://docs.nexos.ai/gateway-api/integrations/langchain.md)
+- [Roo Code - VStudio Code](https://docs.nexos.ai/gateway-api/integrations/roo-code.md)
+- [n8n](https://docs.nexos.ai/gateway-api/integrations/n8n.md)
+- [OpenClaw on Hostinger](https://docs.nexos.ai/gateway-api/openclaw-on-hostinger.md)
+- [OpenAI SDKs](https://docs.nexos.ai/openai-sdks.md)
+- [Python SDK](https://docs.nexos.ai/openai-sdks/python-sdk.md)
+- [Go SDK](https://docs.nexos.ai/openai-sdks/go-sdk.md)
+- [testing gitlab sync](https://docs.nexos.ai/testing-gitlab-sync.md)
+
+## Changelog
+
+- [Latest updates](https://docs.nexos.ai/changelog/changelog/latest-updates.md)
+- [Feature request](https://docs.nexos.ai/changelog/changelog/feature-request.md)
+
+## Models
+
+- [Models](https://docs.nexos.ai/models/readme.md)
+- [Workspace Model Limitations](https://docs.nexos.ai/models/limitations.md)
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.nexos.ai/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

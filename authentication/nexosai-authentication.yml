@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/nexosai-gateway-openapi-original.yml
+docs: https://docs.nexos.ai/gateway-api/api-keys
+key_prefixes:
+  user: nexos-
+  team: nexos-team-
+requirements: API usage requires both a paid subscription and separately purchased API credits.
+rotation: API keys can be rotated in the API Keys settings; the old key is deprecated on rotation.
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/nexosai-gateway-openapi-original.yml
+- name: apiKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  description: 'Authenticate by sending your nexos API key in the `X-Api-Key` header (e.g. `X-Api-Key:
+    nexos-...` for a user key or `X-Api-Key: nexos-team-...` for a team key). This is an alternative
+    to the `Authorization: Bearer` scheme. If both `X-Nexos-Key` and `X-Api-Key` are sent, `X-Nexos-Key`
+    takes precedence.'
+  sources:
+  - openapi/nexosai-gateway-openapi-original.yml

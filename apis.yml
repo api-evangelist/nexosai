@@ -1,8 +1,16 @@
 aid: nexosai
 name: nexos.ai
-description: 'nexos.ai is a company surfaced as a portfolio company of creandum, index-ventures and added
-  to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  nexos.ai is an enterprise AI platform and OpenAI-compatible AI gateway that unifies many
+  large language model providers behind a single API key and governed workspace. Its Gateway API
+  exposes chat completions, responses, messages, embeddings, images, audio (speech, transcription,
+  translation), batches, files, and storage, alongside management surfaces for models and fallbacks,
+  teams, users, agents, assistants, companies, API keys, and per-company/team/user budget limits.
+  Organizations get guardrails, observability, smart routing across models, agents (Agent Builder
+  with human-in-the-loop approvals), and integrations with tools like Slack, Atlassian, GitHub,
+  Google Workspace, and Microsoft 365. Founded by the team behind Nord Security and backed by
+  Index Ventures and Creandum. This profile was enriched from the provider's public docs at
+  docs.nexos.ai.
 url: https://raw.githubusercontent.com/api-evangelist/nexosai/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,13 +19,194 @@ x-backed-by:
 - index-ventures
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://nexos.ai/
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-- Ai
-apis: []
+- Artificial Intelligence
+- LLM
+- AI Gateway
+- Machine Learning
+- Embeddings
+- Agents
+- Developer Tools
+- OpenAI Compatible
+apis:
+- aid: nexosai:nexosai-agent-management-api
+  name: nexos.ai Agent Management API
+  description: Manage agents.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Agent Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-agent-management-api-openapi.yml
+- aid: nexosai:nexosai-assistant-management-api
+  name: nexos.ai Assistant Management API
+  description: Manage assistants.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Assistant Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-assistant-management-api-openapi.yml
+- aid: nexosai:nexosai-audio-api
+  name: nexos.ai Audio API
+  description: Generate audio or text from audio or text input.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Audio
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-audio-api-openapi.yml
+- aid: nexosai:nexosai-batches-api
+  name: nexos.ai Batches API
+  description: >-
+    Create and run large groups of requests asynchronously. Batches are only available for OpenAI models.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Batches
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-batches-api-openapi.yml
+- aid: nexosai:nexosai-budget-limit-management-api
+  name: nexos.ai Budget Limit Management API
+  description: Manage company budget limits.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Budget Limit Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-budget-limit-management-api-openapi.yml
+- aid: nexosai:nexosai-chat-api
+  name: nexos.ai Chat API
+  description: Generate a response from conversation messages.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-chat-api-openapi.yml
+- aid: nexosai:nexosai-company-management-api
+  name: nexos.ai Company Management API
+  description: List company API keys and their usage.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Company Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-company-management-api-openapi.yml
+- aid: nexosai:nexosai-embeddings-api
+  name: nexos.ai Embeddings API
+  description: Create vector embeddings for input text.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Embeddings
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-embeddings-api-openapi.yml
+- aid: nexosai:nexosai-files-api
+  name: nexos.ai Files API
+  description: Upload and manage files used by other endpoints.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-files-api-openapi.yml
+- aid: nexosai:nexosai-images-api
+  name: nexos.ai Images API
+  description: Generate images from image or text input.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-images-api-openapi.yml
+- aid: nexosai:nexosai-messages-api
+  name: nexos.ai Messages API
+  description: Anthropic-native Messages API for prompt-cache-preserving passthrough.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Messages
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-messages-api-openapi.yml
+- aid: nexosai:nexosai-models-api
+  name: nexos.ai Models API
+  description: List available models.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Models
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-models-api-openapi.yml
+- aid: nexosai:nexosai-responses-api
+  name: nexos.ai Responses API
+  description: Create and manage model responses.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Responses
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-responses-api-openapi.yml
+- aid: nexosai:nexosai-storage-api
+  name: nexos.ai Storage API
+  description: Upload and manage media files.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-storage-api-openapi.yml
+- aid: nexosai:nexosai-team-management-api
+  name: nexos.ai Team Management API
+  description: Manage teams, API keys, and models.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Team Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-team-management-api-openapi.yml
+- aid: nexosai:nexosai-user-management-api
+  name: nexos.ai User Management API
+  description: Manage user API keys.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - User Management
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-user-management-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -26,3 +215,52 @@ maintainers:
 common:
 - type: Website
   url: https://nexos.ai/
+- type: DeveloperPortal
+  url: https://docs.nexos.ai/
+- type: Documentation
+  url: https://docs.nexos.ai/
+- type: APIReference
+  url: https://docs.nexos.ai/gateway-api
+- type: GettingStarted
+  url: https://docs.nexos.ai/readme.md
+- type: ChangeLog
+  url: https://docs.nexos.ai/changelog/changelog/latest-updates
+- type: GitHubOrganization
+  url: https://github.com/nexos-ai
+- type: LLMsTxt
+  url: llms/nexosai-llms.txt
+- type: OpenAPI
+  url: openapi/nexosai-gateway-openapi-original.yml
+- type: Overlay
+  url: overlays/nexosai-gateway-overlay.yaml
+- type: Authentication
+  url: authentication/nexosai-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/nexosai-agentic-access.yml
+- type: Conventions
+  url: conventions/nexosai-conventions.yml
+- type: ErrorCatalog
+  url: errors/nexosai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/nexosai-lifecycle.yml
+- type: DataModel
+  url: data-model/nexosai-data-model.yml
+- type: Conformance
+  url: conformance/nexosai-conformance.yml
+- type: Compliance
+  url: https://trust.nexos.ai/
+- type: TrustCenter
+  url: security/nexosai-trust-center.yml
+- type: MCPServer
+  url: mcp/nexosai-mcp.yml
+- type: WellKnown
+  url: well-known/nexosai-well-known.yml
+- type: DomainSecurity
+  url: security/nexosai-domain-security.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 16
+  pass: local-v1

@@ -1,0 +1,177 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/nexosai-gateway-openapi-original.yml
+note: No official hosted nexos.ai MCP server found. Candidate tool list derived one-per-operation from
+  the harvested Gateway API OpenAPI. nexos.ai itself acts as an OpenAI-compatible gateway/MCP-host for
+  other providers' models.
+server:
+  name: nexosai
+  transport: http
+  url: null
+tools:
+- name: get_agents_v1
+  description: List agents for a specific user
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-agents-v1
+- name: get_assistants_v1
+  description: List assistants for a specific user. Deprecated, use /v1/agents instead.
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-assistants-v1
+- name: post_audio_speech_v1
+  description: Create speech
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-audio-speech-v1
+- name: post_audio_transcriptions_v1
+  description: Create transcription
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-audio-transcriptions-v1
+- name: post_audio_translations_v1
+  description: Create translation
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-audio-translations-v1
+- name: post_batches_v1
+  description: Create batch
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-batches-v1
+- name: get_batch_v1
+  description: Retrieve batch
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-batch-v1
+- name: get_company_budget_limits_v1
+  description: List budget limits for a company
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-company-budget-limits-v1
+- name: put_company_budget_limits_v1
+  description: Upsert a budget limit
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#put-company-budget-limits-v1
+- name: delete_company_budget_limits_v1
+  description: Delete a budget limit
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-company-budget-limits-v1
+- name: put_company_budget_limits_bulk_v1
+  description: Bulk upsert and delete budget limits
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#put-company-budget-limits-bulk-v1
+- name: post_chat_completions_v1
+  description: Create chat completion
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-chat-completions-v1
+- name: get_company_api_keys_with_usage_v1
+  description: List all company API keys with last usage time
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-company-api-keys-with-usage-v1
+- name: get_company_user_api_keys_with_usage_v1
+  description: List company user API keys aggregated by owner
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-company-user-api-keys-with-usage-v1
+- name: list_user_api_keys_with_usage_v1
+  description: List user API keys with last usage time
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#list-user-api-keys-with-usage-v1
+- name: get_company_team_api_keys_with_usage_v1
+  description: List company team API keys aggregated by team
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-company-team-api-keys-with-usage-v1
+- name: list_team_api_keys_with_usage_v1
+  description: List team API keys with last usage time
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#list-team-api-keys-with-usage-v1
+- name: post_embeddings_v1
+  description: Create embeddings
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-embeddings-v1
+- name: get_files_v1
+  description: List files
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-files-v1
+- name: post_files_v1
+  description: Upload file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-files-v1
+- name: get_file_v1
+  description: Get file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-file-v1
+- name: delete_file_v1
+  description: Delete file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-file-v1
+- name: get_file_contents_v1
+  description: Get file contents
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-file-contents-v1
+- name: post_images_generations_v1
+  description: Create image
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-images-generations-v1
+- name: createMessage
+  description: Create a message (Anthropic-native)
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#createMessage
+- name: get_user_models_v1
+  description: List models
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-user-models-v1
+- name: get_model_fallbacks_v1
+  description: Get fallbacks configuration for particular model
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-model-fallbacks-v1
+- name: post_model_fallbacks_v1
+  description: Add fallbacks configuration for particular model
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-model-fallbacks-v1
+- name: delete_model_fallbacks_v1
+  description: Delete model fallbacks configuration
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-model-fallbacks-v1
+- name: update_model_fallbacks_v1
+  description: Update fallbacks configuration for particular model
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#update-model-fallbacks-v1
+- name: createResponse
+  description: Create a model response
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#createResponse
+- name: getResponse
+  description: Get a model response
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#getResponse
+- name: deleteResponse
+  description: Delete a model response
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#deleteResponse
+- name: listInputItems
+  description: List input items
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#listInputItems
+- name: cancelResponse
+  description: Cancel a response
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#cancelResponse
+- name: CompactConversation
+  description: Compact a response
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#CompactConversation
+- name: GetInputTokenCounts
+  description: Get input token counts
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#GetInputTokenCounts
+- name: get_storage_files_v1
+  description: List uploaded media files
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-storage-files-v1
+- name: post_storage_files_v1
+  description: Upload media file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#post-storage-files-v1
+- name: get_storage_file_v1
+  description: Get storage file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-storage-file-v1
+- name: delete_storage_file_v1
+  description: Delete storage file
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-storage-file-v1
+- name: get_storage_file_contents_v1
+  description: Get storage file contents
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#get-storage-file-contents-v1
+- name: list_team_api_keys_v1
+  description: List team API keys
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#list-team-api-keys-v1
+- name: create_team_api_key_v1
+  description: Create team API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#create-team-api-key-v1
+- name: update_many_team_api_keys_v1
+  description: Update many team API keys
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#update-many-team-api-keys-v1
+- name: delete_team_api_key_v1
+  description: Delete team API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-team-api-key-v1
+- name: update_team_api_key_v1
+  description: Update team API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#update-team-api-key-v1
+- name: regenerate_team_api_key_v1
+  description: Regenerate team API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#regenerate-team-api-key-v1
+- name: rotate_api_key_v1
+  description: Rotate API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#rotate-api-key-v1
+- name: list_user_api_keys_v1
+  description: List user API keys
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#list-user-api-keys-v1
+- name: create_user_api_key_v1
+  description: Create user API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#create-user-api-key-v1
+- name: update_many_user_api_keys_v1
+  description: Update many user API keys
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#update-many-user-api-keys-v1
+- name: delete_user_api_key_v1
+  description: Delete user API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#delete-user-api-key-v1
+- name: update_user_api_key_v1
+  description: Update user API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#update-user-api-key-v1
+- name: regenerate_user_api_key_v1
+  description: Regenerate user API key
+  source_operation: openapi/nexosai-gateway-openapi-original.yml#regenerate-user-api-key-v1

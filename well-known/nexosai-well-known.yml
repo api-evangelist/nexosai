@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: searched
+hosts:
+- host: https://nexos.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    file: null
+- host: https://api.nexos.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 401
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+    file: null
+  - path: /.well-known/api-catalog
+    status: 401
+    file: null
+notes: Marketing host is behind Cloudflare bot protection (403); API host requires authentication (401).
+  No public .well-known documents retrievable.

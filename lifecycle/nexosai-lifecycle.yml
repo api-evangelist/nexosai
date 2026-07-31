@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://docs.nexos.ai/gateway-api.md
+- https://docs.nexos.ai/changelog/changelog/latest-updates.md
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://docs.nexos.ai/gateway-api.md
+changelog:
+  url: https://docs.nexos.ai/changelog/changelog/latest-updates
+  ref: changelog/nexosai-changelog.yml
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No formal deprecation/Sunset-header policy published; API keys can be individually rotated/deprecated
+    by the customer.
+status_page: null
+status_page_notes: No public status page found (status.nexos.ai does not resolve as of probe).
+deprecated_operations: []
