@@ -230,7 +230,7 @@ common:
 - type: LLMsTxt
   url: llms/nexosai-llms.txt
 - type: OpenAPI
-  url: openapi/nexosai-gateway-openapi-original.yml
+  url: openapi/_original/nexosai-gateway-openapi-original.yml
 - type: Overlay
   url: overlays/nexosai-gateway-overlay.yaml
 - type: Authentication
