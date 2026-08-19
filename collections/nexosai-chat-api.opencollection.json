@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Chat API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create chat completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/chat/completions",
+            "params": [
+              {
+                "name": "fallbacks",
+                "value": "",
+                "type": "query",
+                "description": "To use or not fallbacks in chat completion request"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a response from conversation messages."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

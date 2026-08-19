@@ -1,0 +1,287 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Company Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Company Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all company API keys with last usage time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/api_keys/with_usage",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip."
+              },
+              {
+                "name": "sort_by_field",
+                "value": "",
+                "type": "query",
+                "description": "Sort field: name, key_owner, last_used_at, status."
+              },
+              {
+                "name": "sort_by_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: asc, desc."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key name (partial match)."
+              },
+              {
+                "name": "owner_uuid",
+                "value": "",
+                "type": "query",
+                "description": "Filter by owner UUID (user or team)."
+              }
+            ]
+          },
+          "docs": "Returns all API keys (user and team) for the company with pagination and sorting."
+        },
+        {
+          "info": {
+            "name": "List company user API keys aggregated by owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/users/api_keys/with_usage",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip."
+              },
+              {
+                "name": "sort_by_field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by: owner_name, status, key_count, budget_used, budget_limit."
+              },
+              {
+                "name": "sort_by_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: asc, desc."
+              },
+              {
+                "name": "owner_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by owner name (partial match)."
+              }
+            ]
+          },
+          "docs": "Returns the company's user API keys aggregated by owner, with usage and budget information."
+        },
+        {
+          "info": {
+            "name": "List user API keys with last usage time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/users/:userId/api_keys/with_usage",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the user."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key name (partial match)."
+              },
+              {
+                "name": "sort_by_field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by: name, owner_name, last_used_at, status, budget_limit, budget_used."
+              },
+              {
+                "name": "sort_by_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: asc, desc."
+              }
+            ]
+          },
+          "docs": "Returns all API keys of a specific user in the company, with last usage time."
+        },
+        {
+          "info": {
+            "name": "List company team API keys aggregated by team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/teams/api_keys/with_usage",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip."
+              },
+              {
+                "name": "sort_by_field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by: team_name, status, key_count, budget_used, budget_limit."
+              },
+              {
+                "name": "sort_by_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: asc, desc."
+              },
+              {
+                "name": "team_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by team name (partial match)."
+              }
+            ]
+          },
+          "docs": "Returns the company's team API keys aggregated by team, with usage and budget information."
+        },
+        {
+          "info": {
+            "name": "List team API keys with last usage time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/teams/:teamId/api_keys/with_usage",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the team."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key name (partial match)."
+              },
+              {
+                "name": "sort_by_field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by: name, owner_name, last_used_at."
+              },
+              {
+                "name": "sort_by_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order: asc, desc."
+              }
+            ]
+          },
+          "docs": "Returns all API keys of a specific team in the company, with last usage time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

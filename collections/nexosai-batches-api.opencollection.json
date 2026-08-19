@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Batches API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/batches",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create and immediately start a batch from a file of requests that was uploaded beforehand.\n\nBatches are only available for OpenAI models."
+        },
+        {
+          "info": {
+            "name": "Retrieve batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/batches/:batch_id",
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the batch to retrieve"
+              },
+              {
+                "name": "model",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Look up a single batch by its ID, including its current status and metadata."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

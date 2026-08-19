@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Messages API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a message (Anthropic-native)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Anthropic-native Messages API. Accepts requests in Anthropic's wire format and forwards\nthem to the upstream Anthropic provider byte-for-byte, preserving native features such as\n`cache_control` for prompt caching. Use this endpoint when the client already speaks\nAnthropic — it avoids the OpenAI translation layer that silently strips `cache_control`.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

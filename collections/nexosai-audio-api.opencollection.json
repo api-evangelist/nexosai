@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Audio API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Audio",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create speech",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/audio/speech",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate speech audio from text."
+        },
+        {
+          "info": {
+            "name": "Create transcription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/audio/transcriptions",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Transcribe audio to text."
+        },
+        {
+          "info": {
+            "name": "Create translation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/audio/translations",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Translate audio to English text."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,223 @@
+{
+  "item": [
+    {
+      "id": "3c8d1008-0538-4057-9da0-fcef1f5478ef",
+      "name": "Agent Management",
+      "description": {
+        "content": "Manage agents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d46bbf32-3142-4ae2-8c00-a8efb6ec19d6",
+          "name": "List agents for a specific user",
+          "request": {
+            "name": "List agents for a specific user",
+            "description": {
+              "content": "Retrieve list of agents for a specific user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "The number of items to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<long>",
+                  "description": "The number of items to skip."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by.field",
+                  "value": "<string>",
+                  "description": "Field to sort by, must be used together with sort_by.order."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by.order",
+                  "value": "<string>",
+                  "description": "Sort order, must be used together with sort_by.field."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_shared",
+                  "value": "false",
+                  "description": "Whether to include agents shared with the user."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "129ab8be-c4f2-4e61-a7c0-102f97088b49",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "sort_by.field",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by.order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d94ab622-6efe-4062-9a65-63c51cfbbd78",
+              "name": "Agent not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "sort_by.field",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by.order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.nexos.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "af424185-bd7f-4598-b5ee-ddefd57ee605",
+    "name": "Nexos AI Public API Production Agent Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage agents.",
+      "type": "text/plain"
+    }
+  }
+}

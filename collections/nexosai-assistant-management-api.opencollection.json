@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Assistant Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assistant Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List assistants for a specific user. Deprecated, use /v1/agents instead.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/assistants",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip."
+              },
+              {
+                "name": "sort_by.field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by, must be used together with sort_by.order."
+              },
+              {
+                "name": "sort_by.order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order, must be used together with sort_by.field."
+              },
+              {
+                "name": "include_shared",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include assistants shared with the user."
+              }
+            ]
+          },
+          "docs": "Deprecated: Use /v1/agents instead. Retrieve list of assistants for a specific user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

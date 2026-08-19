@@ -175,3 +175,9 @@ tools:
 - name: regenerate_user_api_key_v1
   description: Regenerate user API key
   source_operation: openapi/nexosai-gateway-openapi-original.yml#regenerate-user-api-key-v1
+deployment:
+  mode: none
+  verified: derived
+  tools: 55
+  checked: '2026-08-12'
+  source: catalog MCP census

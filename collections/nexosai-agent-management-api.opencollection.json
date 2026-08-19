@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List agents for a specific user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/agents",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip."
+              },
+              {
+                "name": "sort_by.field",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by, must be used together with sort_by.order."
+              },
+              {
+                "name": "sort_by.order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order, must be used together with sort_by.field."
+              },
+              {
+                "name": "include_shared",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include agents shared with the user."
+              }
+            ]
+          },
+          "docs": "Retrieve list of agents for a specific user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

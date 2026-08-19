@@ -1,0 +1,124 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Budget Limit Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Budget Limit Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List budget limits for a company",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/budget_limits",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip."
+              }
+            ]
+          },
+          "docs": "Retrieve all budget limits for a specific company."
+        },
+        {
+          "info": {
+            "name": "Upsert a budget limit",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/budget_limits",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a budget limit for a company."
+        },
+        {
+          "info": {
+            "name": "Delete a budget limit",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/budget_limits",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a specific budget limit for a company."
+        },
+        {
+          "info": {
+            "name": "Bulk upsert and delete budget limits",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.nexos.ai/v1/companies/:companyId/budget_limits/bulk",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the company."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply many budget-limit changes for a company in a single call. Each item is upserted by default; items with `remove: true` delete the matching row identified by `(company_uuid, target_type, target_uuid, limit_type)`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

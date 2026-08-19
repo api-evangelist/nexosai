@@ -1,0 +1,142 @@
+{
+  "item": [
+    {
+      "id": "45ed66c7-4d1d-42f3-8bb5-93078037d130",
+      "name": "Messages",
+      "description": {
+        "content": "Anthropic-native Messages API for prompt-cache-preserving passthrough.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "557124c8-1794-4c90-8712-1e8a8aa3e140",
+          "name": "Create a message (Anthropic-native)",
+          "request": {
+            "name": "Create a message (Anthropic-native)",
+            "description": {
+              "content": "Anthropic-native Messages API. Accepts requests in Anthropic's wire format and forwards\nthem to the upstream Anthropic provider byte-for-byte, preserving native features such as\n`cache_control` for prompt caching. Use this endpoint when the client already speaks\nAnthropic — it avoids the OpenAI translation layer that silently strips `cache_control`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "messages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    }\n  ],\n  \"max_tokens\": \"<integer>\",\n  \"system\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"top_k\": \"<integer>\",\n  \"stop_sequences\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stream\": false,\n  \"metadata\": {\n    \"user_id\": \"<string>\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"input_schema\": \"<object>\",\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"input_schema\": \"<object>\",\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      }\n    }\n  ],\n  \"tool_choice\": {\n    \"type\": \"<string>\",\n    \"disable_parallel_tool_use\": \"<boolean>\"\n  },\n  \"cache_control\": {\n    \"type\": \"<string>\",\n    \"ttl\": \"<string>\"\n  },\n  \"thinking\": {\n    \"type\": \"<string>\",\n    \"budget_tokens\": \"<integer>\"\n  },\n  \"service_tier\": \"<string>\",\n  \"container\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e2238fd1-d7a6-4256-b81a-ae4586d69ca2",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "messages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    }\n  ],\n  \"max_tokens\": \"<integer>\",\n  \"system\": \"<string>\",\n  \"temperature\": \"<number>\",\n  \"top_p\": \"<number>\",\n  \"top_k\": \"<integer>\",\n  \"stop_sequences\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"stream\": false,\n  \"metadata\": {\n    \"user_id\": \"<string>\"\n  },\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"input_schema\": \"<object>\",\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      }\n    },\n    {\n      \"name\": \"<string>\",\n      \"input_schema\": \"<object>\",\n      \"description\": \"<string>\",\n      \"type\": \"<string>\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      }\n    }\n  ],\n  \"tool_choice\": {\n    \"type\": \"<string>\",\n    \"disable_parallel_tool_use\": \"<boolean>\"\n  },\n  \"cache_control\": {\n    \"type\": \"<string>\",\n    \"ttl\": \"<string>\"\n  },\n  \"thinking\": {\n    \"type\": \"<string>\",\n    \"budget_tokens\": \"<integer>\"\n  },\n  \"service_tier\": \"<string>\",\n  \"container\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"type\": \"message\",\n  \"role\": \"assistant\",\n  \"content\": [\n    {\n      \"type\": \"text\",\n      \"text\": \"string\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      },\n      \"citations\": [\n        {\n          \"type\": \"string\",\n          \"cited_text\": \"string\",\n          \"document_index\": 1201,\n          \"document_title\": \"string\",\n          \"start_char_index\": 9973,\n          \"end_char_index\": 5343,\n          \"start_page_number\": 3092,\n          \"end_page_number\": 9969,\n          \"start_block_index\": 7610,\n          \"end_block_index\": 6410\n        },\n        {\n          \"type\": \"string\",\n          \"cited_text\": \"string\",\n          \"document_index\": 9558,\n          \"document_title\": \"string\",\n          \"start_char_index\": 6597,\n          \"end_char_index\": 5111,\n          \"start_page_number\": 9556,\n          \"end_page_number\": 6585,\n          \"start_block_index\": 8797,\n          \"end_block_index\": 5756\n        }\n      ]\n    },\n    {\n      \"type\": \"text\",\n      \"text\": \"string\",\n      \"cache_control\": {\n        \"type\": \"<string>\",\n        \"ttl\": \"<string>\"\n      },\n      \"citations\": [\n        {\n          \"type\": \"string\",\n          \"cited_text\": \"string\",\n          \"document_index\": 8242,\n          \"document_title\": \"string\",\n          \"start_char_index\": 8721,\n          \"end_char_index\": 9426,\n          \"start_page_number\": 5537,\n          \"end_page_number\": 5004,\n          \"start_block_index\": 5476,\n          \"end_block_index\": 4999\n        },\n        {\n          \"type\": \"string\",\n          \"cited_text\": \"string\",\n          \"document_index\": 5769,\n          \"document_title\": \"string\",\n          \"start_char_index\": 914,\n          \"end_char_index\": 6821,\n          \"start_page_number\": 9459,\n          \"end_page_number\": 1477,\n          \"start_block_index\": 7315,\n          \"end_block_index\": 6947\n        }\n      ]\n    }\n  ],\n  \"model\": \"string\",\n  \"usage\": {\n    \"input_tokens\": 1581,\n    \"output_tokens\": 1272,\n    \"cache_creation_input_tokens\": 4469,\n    \"cache_read_input_tokens\": 8603,\n    \"cache_creation\": {\n      \"ephemeral_5m_input_tokens\": 5342,\n      \"ephemeral_1h_input_tokens\": 5248\n    },\n    \"service_tier\": \"string\",\n    \"server_tool_use\": {\n      \"web_search_requests\": 1292\n    },\n    \"nexos_credits_cost\": 4948.049080848484\n  },\n  \"stop_reason\": \"pause_turn\",\n  \"stop_sequence\": \"string\",\n  \"container\": {\n    \"id\": \"string\",\n    \"expires_at\": \"1959-10-13T15:16:18.743Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.nexos.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1a87c940-5b09-4d05-a069-ca3e614c76a5",
+    "name": "Nexos AI Public API Production Agent Management Messages API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage agents.",
+      "type": "text/plain"
+    }
+  }
+}

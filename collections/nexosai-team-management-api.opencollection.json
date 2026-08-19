@@ -1,0 +1,179 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Nexos AI Public API Production Agent Management Team Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Team Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List team API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              }
+            ]
+          },
+          "docs": "Return all API keys that belong to the team."
+        },
+        {
+          "info": {
+            "name": "Create team API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new API key for the team."
+        },
+        {
+          "info": {
+            "name": "Update many team API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys/bulk",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple team API keys in a single request."
+        },
+        {
+          "info": {
+            "name": "Update team API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys/:keyId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the key."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a team API key."
+        },
+        {
+          "info": {
+            "name": "Delete team API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys/:keyId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the key."
+              }
+            ]
+          },
+          "docs": "Permanently delete a team API key."
+        },
+        {
+          "info": {
+            "name": "Regenerate team API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.nexos.ai/v1/teams/:teamId/api_keys/:keyId/regenerate",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the team."
+              },
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the key."
+              }
+            ]
+          },
+          "docs": "Regenerate the value of a team API key."
+        },
+        {
+          "info": {
+            "name": "Rotate API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.nexos.ai/v1/apikey/rotate"
+          },
+          "docs": "Rotates the API key used to authenticate this request. Returns a new key value."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

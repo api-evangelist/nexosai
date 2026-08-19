@@ -1,0 +1,223 @@
+{
+  "item": [
+    {
+      "id": "5fc6d4d2-be79-4783-ac2b-e7f4abd112bb",
+      "name": "Assistant Management",
+      "description": {
+        "content": "Manage assistants.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e1e1a996-a24b-4185-b045-16a460dae607",
+          "name": "List assistants for a specific user. Deprecated, use /v1/agents instead.",
+          "request": {
+            "name": "List assistants for a specific user. Deprecated, use /v1/agents instead.",
+            "description": {
+              "content": "Deprecated: Use /v1/agents instead. Retrieve list of assistants for a specific user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "assistants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "The number of items to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<long>",
+                  "description": "The number of items to skip."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by.field",
+                  "value": "<string>",
+                  "description": "Field to sort by, must be used together with sort_by.order."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by.order",
+                  "value": "<string>",
+                  "description": "Sort order, must be used together with sort_by.field."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_shared",
+                  "value": "false",
+                  "description": "Whether to include assistants shared with the user."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bc84fb3c-3109-49d3-9236-8ecf7d486621",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assistants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "sort_by.field",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by.order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "973e1738-3e78-4ec2-b968-87ad5718aa5e",
+              "name": "Assistant not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "assistants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "sort_by.field",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by.order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include_shared",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.nexos.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "df40e646-cfef-4a42-b894-26fc93cb1039",
+    "name": "Nexos AI Public API Production Agent Management Assistant Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Manage agents.",
+      "type": "text/plain"
+    }
+  }
+}
