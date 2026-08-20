@@ -40,6 +40,16 @@ tags:
 - Artificial Intelligence
 - LLM
 - AI Gateway
+- Machine-Learning
+- Embeddings
+- Agents
+- Developer Tools
+- OpenAI-Compatible
+tags_raw:
+- Company
+- Artificial Intelligence
+- LLM
+- AI Gateway
 - Machine Learning
 - Embeddings
 - Agents
@@ -133,6 +143,8 @@ apis:
   humanURL: https://docs.nexos.ai/gateway-api
   baseURL: https://api.nexos.ai
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -143,6 +155,8 @@ apis:
   humanURL: https://docs.nexos.ai/gateway-api
   baseURL: https://api.nexos.ai
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
@@ -153,6 +167,8 @@ apis:
   humanURL: https://docs.nexos.ai/gateway-api
   baseURL: https://api.nexos.ai
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
