@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Nexos AI Public API Production Agent Management Images API
+  title: Nexos AI Public API Production Images API
   version: 1.0.0
-  description: Manage agents.
+  description: Generate images from image or text input.
 servers:
 - url: https://api.nexos.ai
 security:
@@ -46,10 +46,11 @@ components:
         model:
           type: string
         n:
-          type: integer
+          type:
+          - integer
+          - 'null'
           minimum: 1
           maximum: 10
-          nullable: true
           description: The number of images to generate. Must be between 1 and 10.
         quality:
           description: The quality of the generated images.
@@ -60,30 +61,33 @@ components:
           default: standard
         response_format:
           description: The format of the generated images.
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - url
           - b64_json
           default: url
-          nullable: true
         size:
           description: The size of the generated images.
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - 256x256
           - 512x512
           - 1024x1024
           - 1792x1024
           - 1024x1792
-          nullable: true
         style:
           description: The style of the generated images.
-          type: string
+          type:
+          - string
+          - 'null'
           enum:
           - vivid
           - natural
           default: vivid
-          nullable: true
       required:
       - prompt
       - model

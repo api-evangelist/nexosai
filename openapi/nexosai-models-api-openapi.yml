@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Nexos AI Public API Production Agent Management Models API
+  title: Nexos AI Public API Production Models API
   version: 1.0.0
-  description: Manage agents.
+  description: List available models.
 servers:
 - url: https://api.nexos.ai
 security:
@@ -80,7 +80,6 @@ paths:
     delete:
       operationId: delete-model-fallbacks-v1
       summary: Delete model fallbacks configuration
-      description: Delete model fallbacks configuration
       tags:
       - Models
       parameters:
@@ -125,6 +124,19 @@ paths:
           description: Invalid request.
 components:
   schemas:
+    ModelFallbacks:
+      type: array
+      items:
+        type: string
+        format: uuid
+        description: The ID of the model to associate with the company.
+    ModelFallbacksRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/ModelFallbacks'
+      required:
+      - models
     ModelFallbacksConfiguration:
       type: object
       properties:
@@ -143,19 +155,6 @@ components:
           description: The time the model fallbacks configuration was last updated.
       required:
       - id
-    ModelFallbacks:
-      type: array
-      items:
-        type: string
-        format: uuid
-        description: The ID of the model to associate with the company.
-    ModelFallbacksRequest:
-      type: object
-      properties:
-        models:
-          $ref: '#/components/schemas/ModelFallbacks'
-      required:
-      - models
   securitySchemes:
     bearerAuth:
       type: http

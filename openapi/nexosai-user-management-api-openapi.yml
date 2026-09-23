@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Nexos AI Public API Production Agent Management User Management API
+  title: Nexos AI Public API Production User Management API
   version: 1.0.0
-  description: Manage agents.
+  description: Manage user API keys.
 servers:
 - url: https://api.nexos.ai
 security:
@@ -150,31 +150,6 @@ paths:
           description: User/Key not found.
 components:
   schemas:
-    APIKeyBulkUpdateItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The UUID of the key to update.
-        name:
-          type: string
-          description: The name of the key.
-          minLength: 1
-          maxLength: 255
-        enabled:
-          type: boolean
-          description: Whether the API key is enabled.
-        expiration_date:
-          type: string
-          format: date-time
-          nullable: true
-          description: The date when the key expires.
-        remove:
-          type: boolean
-          description: If you want to remove api key, set this to true - other cases skip.
-      required:
-      - id
     APIKeyRequest:
       type: object
       properties:
@@ -187,22 +162,13 @@ components:
           type: boolean
           description: Whether the API key is enabled. Only applicable when updating a key.
         expiration_date:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
-          nullable: true
           description: The date when the key expires. Null means no expiration.
       required:
       - name
-    APIKeyBulkUpdateRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/APIKeyBulkUpdateItem'
-          maxItems: 100
-      required:
-      - items
     APIKey:
       type: object
       properties:
@@ -243,6 +209,42 @@ components:
       - name
       - enabled
       - removed
+    APIKeyBulkUpdateItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The UUID of the key to update.
+        name:
+          type: string
+          description: The name of the key.
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date when the key expires.
+        remove:
+          type: boolean
+          description: If you want to remove api key, set this to true - other cases skip.
+      required:
+      - id
+    APIKeyBulkUpdateRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIKeyBulkUpdateItem'
+          maxItems: 100
+      required:
+      - items
   securitySchemes:
     bearerAuth:
       type: http
