@@ -97,6 +97,139 @@ paths:
           description: Server error.
 components:
   schemas:
+    TranslationResponseJson:
+      type: object
+      description: Represents a translation response returned by model, based on the provided input.
+      properties:
+        text:
+          type: string
+        model:
+          type: string
+          description: The model used for generating translation.
+    TranslationResponseVerboseJson:
+      type: object
+      description: Represents a verbose translation response returned by model, based on the provided input.
+      properties:
+        language:
+          type: string
+          description: The language of the output translation (always `english`).
+        duration:
+          type: string
+          description: The duration of the input audio.
+        text:
+          type: string
+          description: The translated text.
+        segments:
+          type: array
+          description: Segments of the translated text and their corresponding details.
+          items:
+            $ref: '#/components/schemas/TranscriptionSegment'
+        model:
+          type: string
+          description: The model used for generating translation.
+    TranscriptionResponseJson:
+      type: object
+      description: Represents a transcription response returned by model, based on the provided input.
+      properties:
+        text:
+          type: string
+          description: The transcribed text.
+        model:
+          type: string
+          description: The model used for generating transcription.
+    SpeechRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        model:
+          type: string
+        input:
+          type: string
+          description: The text to generate audio for.
+          maxLength: 4096
+        voice:
+          description: The voice to use when generating the audio.
+          type: string
+          enum:
+          - alloy
+          - echo
+          - fable
+          - onyx
+          - nova
+          - shimmer
+        response_format:
+          description: The format to output audio in.
+          default: mp3
+          type: string
+          enum:
+          - mp3
+          - opus
+          - aac
+          - flac
+          - wav
+          - pcm
+        speed:
+          description: The speed of the generated audio.
+          type: number
+          default: 1
+          minimum: 0.25
+          maximum: 4
+      required:
+      - model
+      - input
+      - voice
+    TranscriptionWord:
+      type: object
+      properties:
+        word:
+          type: string
+          description: The text content of the word.
+        start:
+          type: number
+          format: float
+          description: Start time of the word in seconds.
+        end:
+          type: number
+          format: float
+          description: End time of the word in seconds.
+    TranslationRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+
+            '
+          type: string
+          format: binary
+        model:
+          type: string
+        prompt:
+          description: 'An optional text to guide the model''s style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should be in English.
+
+            '
+          type: string
+        response_format:
+          description: 'The format of the translated transcript output.
+
+            '
+          type: string
+          enum:
+          - json
+          - text
+          - srt
+          - verbose_json
+          - vtt
+          default: json
+        temperature:
+          description: 'The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
+
+            '
+          type: number
+          default: 0
+      required:
+      - file
+      - model
     TranscriptionResponseVerboseJson:
       type: object
       description: Represents a verbose json transcription response returned by model, based on the provided input.
@@ -219,139 +352,6 @@ components:
           type: number
           format: float
           description: Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
-    TranscriptionWord:
-      type: object
-      properties:
-        word:
-          type: string
-          description: The text content of the word.
-        start:
-          type: number
-          format: float
-          description: Start time of the word in seconds.
-        end:
-          type: number
-          format: float
-          description: End time of the word in seconds.
-    TranslationRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        file:
-          description: 'The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
-
-            '
-          type: string
-          format: binary
-        model:
-          type: string
-        prompt:
-          description: 'An optional text to guide the model''s style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should be in English.
-
-            '
-          type: string
-        response_format:
-          description: 'The format of the translated transcript output.
-
-            '
-          type: string
-          enum:
-          - json
-          - text
-          - srt
-          - verbose_json
-          - vtt
-          default: json
-        temperature:
-          description: 'The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
-
-            '
-          type: number
-          default: 0
-      required:
-      - file
-      - model
-    TranscriptionResponseJson:
-      type: object
-      description: Represents a transcription response returned by model, based on the provided input.
-      properties:
-        text:
-          type: string
-          description: The transcribed text.
-        model:
-          type: string
-          description: The model used for generating transcription.
-    TranslationResponseJson:
-      type: object
-      description: Represents a translation response returned by model, based on the provided input.
-      properties:
-        text:
-          type: string
-        model:
-          type: string
-          description: The model used for generating translation.
-    TranslationResponseVerboseJson:
-      type: object
-      description: Represents a verbose translation response returned by model, based on the provided input.
-      properties:
-        language:
-          type: string
-          description: The language of the output translation (always `english`).
-        duration:
-          type: string
-          description: The duration of the input audio.
-        text:
-          type: string
-          description: The translated text.
-        segments:
-          type: array
-          description: Segments of the translated text and their corresponding details.
-          items:
-            $ref: '#/components/schemas/TranscriptionSegment'
-        model:
-          type: string
-          description: The model used for generating translation.
-    SpeechRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        model:
-          type: string
-        input:
-          type: string
-          description: The text to generate audio for.
-          maxLength: 4096
-        voice:
-          description: The voice to use when generating the audio.
-          type: string
-          enum:
-          - alloy
-          - echo
-          - fable
-          - onyx
-          - nova
-          - shimmer
-        response_format:
-          description: The format to output audio in.
-          default: mp3
-          type: string
-          enum:
-          - mp3
-          - opus
-          - aac
-          - flac
-          - wav
-          - pcm
-        speed:
-          description: The speed of the generated audio.
-          type: number
-          default: 1
-          minimum: 0.25
-          maximum: 4
-      required:
-      - model
-      - input
-      - voice
   securitySchemes:
     bearerAuth:
       type: http

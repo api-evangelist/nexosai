@@ -160,11 +160,6 @@ paths:
           description: Server error.
 components:
   schemas:
-    FilePurposeType:
-      type: string
-      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
-      enum:
-      - batch
     FileResponse:
       type: object
       description: A document that has been uploaded and can be referenced by other endpoints.
@@ -199,21 +194,6 @@ components:
           - uploaded
           - processed
           - error
-    UploadFileRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        file:
-          description: 'The File object (not file name) to be uploaded.
-
-            '
-          type: string
-          format: binary
-        purpose:
-          $ref: '#/components/schemas/FilePurposeType'
-      required:
-      - file
-      - purpose
     DeletionStatusResponse:
       type: object
       description: The status of a file deletion.
@@ -233,6 +213,21 @@ components:
       - id
       - object
       - deleted
+    UploadFileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The File object (not file name) to be uploaded.
+
+            '
+          type: string
+          format: binary
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+      required:
+      - file
+      - purpose
     ListFilesResponse:
       type: object
       description: A list of uploaded files.
@@ -258,6 +253,11 @@ components:
       required:
       - data
       - object
+    FilePurposeType:
+      type: string
+      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
+      enum:
+      - batch
   securitySchemes:
     bearerAuth:
       type: http

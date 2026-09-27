@@ -167,11 +167,6 @@ paths:
           description: Server error.
 components:
   schemas:
-    FilePurposeType:
-      type: string
-      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
-      enum:
-      - batch
     file_FileResponse:
       type: object
       description: The File object represents a document that has been uploaded to OpenAI.
@@ -210,18 +205,19 @@ components:
           type: string
           enum:
           - file
-    upload_file_UploadFileRequest:
+    deletion_status_DeletionStatusResponse:
       type: object
+      description: The status of a file deletion.
       properties:
-        file:
+        id:
           type: string
-          format: binary
-          description: The File object (not file name) to be uploaded.
-        purpose:
-          $ref: '#/components/schemas/FilePurposeType'
+          description: The file identifier.
+        deleted:
+          type: boolean
+          description: Indicates whether the file has been deleted.
       required:
-      - file
-      - purpose
+      - id
+      - deleted
     list_files_ListFilesResponse:
       type: object
       description: A list of uploaded files.
@@ -236,19 +232,23 @@ components:
           - list
       required:
       - data
-    deletion_status_DeletionStatusResponse:
+    upload_file_UploadFileRequest:
       type: object
-      description: The status of a file deletion.
       properties:
-        id:
+        file:
           type: string
-          description: The file identifier.
-        deleted:
-          type: boolean
-          description: Indicates whether the file has been deleted.
+          format: binary
+          description: The File object (not file name) to be uploaded.
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
       required:
-      - id
-      - deleted
+      - file
+      - purpose
+    FilePurposeType:
+      type: string
+      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
+      enum:
+      - batch
   securitySchemes:
     bearerAuth:
       type: http

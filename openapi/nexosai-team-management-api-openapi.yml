@@ -189,25 +189,16 @@ paths:
           description: Internal server error.
 components:
   schemas:
-    APIKeyRequest:
+    APIKeyBulkUpdateRequest:
       type: object
       properties:
-        name:
-          type: string
-          description: The name of the key (needs to be unique).
-          minLength: 1
-          maxLength: 255
-        enabled:
-          type: boolean
-          description: Whether the API key is enabled. Only applicable when updating a key.
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date when the key expires. Null means no expiration.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIKeyBulkUpdateItem'
+          maxItems: 100
       required:
-      - name
+      - items
     APIKey:
       type: object
       properties:
@@ -248,6 +239,25 @@ components:
       - name
       - enabled
       - removed
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the key (needs to be unique).
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled. Only applicable when updating a key.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date when the key expires. Null means no expiration.
+      required:
+      - name
     APIKeyBulkUpdateItem:
       type: object
       properties:
@@ -274,16 +284,6 @@ components:
           description: If you want to remove api key, set this to true - other cases skip.
       required:
       - id
-    APIKeyBulkUpdateRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/APIKeyBulkUpdateItem'
-          maxItems: 100
-      required:
-      - items
   securitySchemes:
     bearerAuth:
       type: http

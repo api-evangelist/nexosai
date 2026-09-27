@@ -63,17 +63,17 @@ paths:
           description: Assistant not found.
 components:
   schemas:
-    SortByField:
-      type: string
-      enum:
-      - name
-      - created_at
     SortOrder:
       type: string
       enum:
       - asc
       - desc
       description: Sort order, must be used together with sort_by.field.
+    SortByField:
+      type: string
+      enum:
+      - name
+      - created_at
   securitySchemes:
     bearerAuth:
       type: http

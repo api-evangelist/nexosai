@@ -124,19 +124,6 @@ paths:
           description: Invalid request.
 components:
   schemas:
-    ModelFallbacks:
-      type: array
-      items:
-        type: string
-        format: uuid
-        description: The ID of the model to associate with the company.
-    ModelFallbacksRequest:
-      type: object
-      properties:
-        models:
-          $ref: '#/components/schemas/ModelFallbacks'
-      required:
-      - models
     ModelFallbacksConfiguration:
       type: object
       properties:
@@ -155,6 +142,19 @@ components:
           description: The time the model fallbacks configuration was last updated.
       required:
       - id
+    ModelFallbacksRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/ModelFallbacks'
+      required:
+      - models
+    ModelFallbacks:
+      type: array
+      items:
+        type: string
+        format: uuid
+        description: The ID of the model to associate with the company.
   securitySchemes:
     bearerAuth:
       type: http
