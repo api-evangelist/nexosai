@@ -157,6 +157,15 @@ components:
       - limit_type
       - is_renewed
       - value
+    BulkUpsertCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitItem'
+      required:
+      - items
     BulkUpsertCompanyBudgetLimitItem:
       type: object
       properties:
@@ -212,15 +221,6 @@ components:
       - target_type
       - limit_type
       - target_uuid
-    BulkUpsertCompanyBudgetLimitRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitItem'
-      required:
-      - items
   securitySchemes:
     bearerAuth:
       type: http

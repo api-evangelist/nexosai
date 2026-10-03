@@ -124,6 +124,13 @@ paths:
           description: Invalid request.
 components:
   schemas:
+    ModelFallbacksRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/ModelFallbacks'
+      required:
+      - models
     ModelFallbacksConfiguration:
       type: object
       properties:
@@ -142,13 +149,6 @@ components:
           description: The time the model fallbacks configuration was last updated.
       required:
       - id
-    ModelFallbacksRequest:
-      type: object
-      properties:
-        models:
-          $ref: '#/components/schemas/ModelFallbacks'
-      required:
-      - models
     ModelFallbacks:
       type: array
       items:

@@ -189,6 +189,51 @@ paths:
           description: Internal server error.
 components:
   schemas:
+    APIKeyBulkUpdateItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The UUID of the key to update.
+        name:
+          type: string
+          description: The name of the key.
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date when the key expires.
+        remove:
+          type: boolean
+          description: If you want to remove api key, set this to true - other cases skip.
+      required:
+      - id
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the key (needs to be unique).
+          minLength: 1
+          maxLength: 255
+        enabled:
+          type: boolean
+          description: Whether the API key is enabled. Only applicable when updating a key.
+        expiration_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: The date when the key expires. Null means no expiration.
+      required:
+      - name
     APIKeyBulkUpdateRequest:
       type: object
       properties:
@@ -239,51 +284,6 @@ components:
       - name
       - enabled
       - removed
-    APIKeyRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the key (needs to be unique).
-          minLength: 1
-          maxLength: 255
-        enabled:
-          type: boolean
-          description: Whether the API key is enabled. Only applicable when updating a key.
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date when the key expires. Null means no expiration.
-      required:
-      - name
-    APIKeyBulkUpdateItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The UUID of the key to update.
-        name:
-          type: string
-          description: The name of the key.
-          minLength: 1
-          maxLength: 255
-        enabled:
-          type: boolean
-          description: Whether the API key is enabled.
-        expiration_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: The date when the key expires.
-        remove:
-          type: boolean
-          description: If you want to remove api key, set this to true - other cases skip.
-      required:
-      - id
   securitySchemes:
     bearerAuth:
       type: http

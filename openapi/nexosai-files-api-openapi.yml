@@ -160,6 +160,31 @@ paths:
           description: Server error.
 components:
   schemas:
+    ListFilesResponse:
+      type: object
+      description: A list of uploaded files.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileResponse'
+        object:
+          type: string
+          description: The object type, which is always list.
+          enum:
+          - list
+        hasMore:
+          type: boolean
+          description: Indicates if there are more items to be fetched.
+        firstId:
+          type: string
+          description: The ID of the first item in the list.
+        lastId:
+          type: string
+          description: The ID of the last item in the list.
+      required:
+      - data
+      - object
     FileResponse:
       type: object
       description: A document that has been uploaded and can be referenced by other endpoints.
@@ -194,6 +219,21 @@ components:
           - uploaded
           - processed
           - error
+    UploadFileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The File object (not file name) to be uploaded.
+
+            '
+          type: string
+          format: binary
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+      required:
+      - file
+      - purpose
     DeletionStatusResponse:
       type: object
       description: The status of a file deletion.
@@ -213,46 +253,6 @@ components:
       - id
       - object
       - deleted
-    UploadFileRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        file:
-          description: 'The File object (not file name) to be uploaded.
-
-            '
-          type: string
-          format: binary
-        purpose:
-          $ref: '#/components/schemas/FilePurposeType'
-      required:
-      - file
-      - purpose
-    ListFilesResponse:
-      type: object
-      description: A list of uploaded files.
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FileResponse'
-        object:
-          type: string
-          description: The object type, which is always list.
-          enum:
-          - list
-        hasMore:
-          type: boolean
-          description: Indicates if there are more items to be fetched.
-        firstId:
-          type: string
-          description: The ID of the first item in the list.
-        lastId:
-          type: string
-          description: The ID of the last item in the list.
-      required:
-      - data
-      - object
     FilePurposeType:
       type: string
       description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
