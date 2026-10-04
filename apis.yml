@@ -120,16 +120,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/nexosai-budget-limit-management-api-openapi.yml
-- aid: nexosai:nexosai-chat-api
-  name: nexos.ai Chat API
-  description: Generate a response from conversation messages.
-  humanURL: https://docs.nexos.ai/gateway-api
-  baseURL: https://api.nexos.ai
-  tags:
-  - Chat
-  properties:
-  - type: OpenAPI
-    url: openapi/nexosai-chat-api-openapi.yml
 - aid: nexosai:nexosai-company-management-api
   name: nexos.ai Company Management API
   description: List company API keys and their usage.
@@ -236,6 +226,16 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/nexosai-user-management-api-openapi.yml
+- aid: nexosai:nexosai-chat-completions-api
+  name: nexos.ai Chat Completions API
+  description: Generate a response from conversation messages.
+  humanURL: https://docs.nexos.ai/gateway-api
+  baseURL: https://api.nexos.ai
+  tags:
+  - Chat Completions
+  properties:
+  - type: OpenAPI
+    url: openapi/nexosai-chat-completions-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -160,6 +160,45 @@ paths:
           description: Server error.
 components:
   schemas:
+    DeletionStatusResponse:
+      type: object
+      description: The status of a file deletion.
+      properties:
+        id:
+          type: string
+          description: The file identifier.
+        object:
+          type: string
+          description: The object type, which is always file.
+          enum:
+          - file
+        deleted:
+          type: boolean
+          description: Indicates whether the file has been deleted.
+      required:
+      - id
+      - object
+      - deleted
+    UploadFileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        file:
+          description: 'The File object (not file name) to be uploaded.
+
+            '
+          type: string
+          format: binary
+        purpose:
+          $ref: '#/components/schemas/FilePurposeType'
+      required:
+      - file
+      - purpose
+    FilePurposeType:
+      type: string
+      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
+      enum:
+      - batch
     ListFilesResponse:
       type: object
       description: A list of uploaded files.
@@ -219,45 +258,6 @@ components:
           - uploaded
           - processed
           - error
-    UploadFileRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        file:
-          description: 'The File object (not file name) to be uploaded.
-
-            '
-          type: string
-          format: binary
-        purpose:
-          $ref: '#/components/schemas/FilePurposeType'
-      required:
-      - file
-      - purpose
-    DeletionStatusResponse:
-      type: object
-      description: The status of a file deletion.
-      properties:
-        id:
-          type: string
-          description: The file identifier.
-        object:
-          type: string
-          description: The object type, which is always file.
-          enum:
-          - file
-        deleted:
-          type: boolean
-          description: Indicates whether the file has been deleted.
-      required:
-      - id
-      - object
-      - deleted
-    FilePurposeType:
-      type: string
-      description: The intended purpose of the file. Only "batch" is supported — uploaded files may only be used as input for the Batch API.
-      enum:
-      - batch
   securitySchemes:
     bearerAuth:
       type: http

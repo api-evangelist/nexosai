@@ -97,96 +97,6 @@ paths:
           description: Server error.
 components:
   schemas:
-    TranslationResponseJson:
-      type: object
-      description: Represents a translation response returned by model, based on the provided input.
-      properties:
-        text:
-          type: string
-        model:
-          type: string
-          description: The model used for generating translation.
-    TranscriptionWord:
-      type: object
-      properties:
-        word:
-          type: string
-          description: The text content of the word.
-        start:
-          type: number
-          format: float
-          description: Start time of the word in seconds.
-        end:
-          type: number
-          format: float
-          description: End time of the word in seconds.
-    TranscriptionResponseVerboseJson:
-      type: object
-      description: Represents a verbose json transcription response returned by model, based on the provided input.
-      properties:
-        language:
-          type: string
-          description: The language of the input audio.
-        duration:
-          type: string
-          description: The duration of the input audio.
-        text:
-          type: string
-          description: The transcribed text.
-        words:
-          type: array
-          description: Extracted words and their corresponding timestamps.
-          items:
-            $ref: '#/components/schemas/TranscriptionWord'
-        segments:
-          type: array
-          description: Segments of the transcribed text and their corresponding details.
-          items:
-            $ref: '#/components/schemas/TranscriptionSegment'
-        model:
-          type: string
-          description: The model used for generating transcription.
-    TranscriptionSegment:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: Unique identifier of the segment.
-        seek:
-          type: integer
-          description: Seek offset of the segment.
-        start:
-          type: number
-          format: float
-          description: Start time of the segment in seconds.
-        end:
-          type: number
-          format: float
-          description: End time of the segment in seconds.
-        text:
-          type: string
-          description: Text content of the segment.
-        tokens:
-          type: array
-          items:
-            type: integer
-          description: Array of token IDs for the text content.
-        temperature:
-          type: number
-          format: float
-          description: Temperature parameter used for generating the segment.
-        avg_logprob:
-          type: number
-          format: float
-          description: Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
-        compression_ratio:
-          type: number
-          format: float
-          description: Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
-        no_speech_prob:
-          type: number
-          format: float
-          description: Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
     TranslationResponseVerboseJson:
       type: object
       description: Represents a verbose translation response returned by model, based on the provided input.
@@ -208,6 +118,47 @@ components:
         model:
           type: string
           description: The model used for generating translation.
+    SpeechRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        model:
+          type: string
+        input:
+          type: string
+          description: The text to generate audio for.
+          maxLength: 4096
+        voice:
+          description: The voice to use when generating the audio.
+          type: string
+          enum:
+          - alloy
+          - echo
+          - fable
+          - onyx
+          - nova
+          - shimmer
+        response_format:
+          description: The format to output audio in.
+          default: mp3
+          type: string
+          enum:
+          - mp3
+          - opus
+          - aac
+          - flac
+          - wav
+          - pcm
+        speed:
+          description: The speed of the generated audio.
+          type: number
+          default: 1
+          minimum: 0.25
+          maximum: 4
+      required:
+      - model
+      - input
+      - voice
     TranscriptionRequest:
       type: object
       additionalProperties: false
@@ -273,6 +224,41 @@ components:
         model:
           type: string
           description: The model used for generating transcription.
+    TranslationResponseJson:
+      type: object
+      description: Represents a translation response returned by model, based on the provided input.
+      properties:
+        text:
+          type: string
+        model:
+          type: string
+          description: The model used for generating translation.
+    TranscriptionResponseVerboseJson:
+      type: object
+      description: Represents a verbose json transcription response returned by model, based on the provided input.
+      properties:
+        language:
+          type: string
+          description: The language of the input audio.
+        duration:
+          type: string
+          description: The duration of the input audio.
+        text:
+          type: string
+          description: The transcribed text.
+        words:
+          type: array
+          description: Extracted words and their corresponding timestamps.
+          items:
+            $ref: '#/components/schemas/TranscriptionWord'
+        segments:
+          type: array
+          description: Segments of the transcribed text and their corresponding details.
+          items:
+            $ref: '#/components/schemas/TranscriptionSegment'
+        model:
+          type: string
+          description: The model used for generating transcription.
     TranslationRequest:
       type: object
       additionalProperties: false
@@ -311,47 +297,61 @@ components:
       required:
       - file
       - model
-    SpeechRequest:
+    TranscriptionSegment:
       type: object
-      additionalProperties: false
       properties:
-        model:
-          type: string
-        input:
-          type: string
-          description: The text to generate audio for.
-          maxLength: 4096
-        voice:
-          description: The voice to use when generating the audio.
-          type: string
-          enum:
-          - alloy
-          - echo
-          - fable
-          - onyx
-          - nova
-          - shimmer
-        response_format:
-          description: The format to output audio in.
-          default: mp3
-          type: string
-          enum:
-          - mp3
-          - opus
-          - aac
-          - flac
-          - wav
-          - pcm
-        speed:
-          description: The speed of the generated audio.
+        id:
+          type: integer
+          description: Unique identifier of the segment.
+        seek:
+          type: integer
+          description: Seek offset of the segment.
+        start:
           type: number
-          default: 1
-          minimum: 0.25
-          maximum: 4
-      required:
-      - model
-      - input
-      - voice
+          format: float
+          description: Start time of the segment in seconds.
+        end:
+          type: number
+          format: float
+          description: End time of the segment in seconds.
+        text:
+          type: string
+          description: Text content of the segment.
+        tokens:
+          type: array
+          items:
+            type: integer
+          description: Array of token IDs for the text content.
+        temperature:
+          type: number
+          format: float
+          description: Temperature parameter used for generating the segment.
+        avg_logprob:
+          type: number
+          format: float
+          description: Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
+        compression_ratio:
+          type: number
+          format: float
+          description: Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+        no_speech_prob:
+          type: number
+          format: float
+          description: Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
+    TranscriptionWord:
+      type: object
+      properties:
+        word:
+          type: string
+          description: The text content of the word.
+        start:
+          type: number
+          format: float
+          description: Start time of the word in seconds.
+        end:
+          type: number
+          format: float
+          description: End time of the word in seconds.
   securitySchemes:
     bearerAuth:
       type: http

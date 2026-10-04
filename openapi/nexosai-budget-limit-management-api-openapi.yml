@@ -124,6 +124,37 @@ paths:
           description: Invalid request data.
 components:
   schemas:
+    BulkUpsertCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitItem'
+      required:
+      - items
+    DeleteCompanyBudgetLimitRequest:
+      type: object
+      properties:
+        target_type:
+          type: string
+          description: The target type of the budget limit (only team or user are supported).
+          enum:
+          - team
+          - user
+        target_uuid:
+          type: string
+          description: The UUID of the target (team or user).
+        limit_type:
+          type: string
+          description: The type of budget limit.
+          enum:
+          - general
+          - public-api
+      required:
+      - target_type
+      - limit_type
+      - target_uuid
     UpsertCompanyBudgetLimitRequest:
       type: object
       properties:
@@ -157,15 +188,6 @@ components:
       - limit_type
       - is_renewed
       - value
-    BulkUpsertCompanyBudgetLimitRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/BulkUpsertCompanyBudgetLimitItem'
-      required:
-      - items
     BulkUpsertCompanyBudgetLimitItem:
       type: object
       properties:
@@ -199,28 +221,6 @@ components:
       - target_uuid
       - limit_type
       - is_renewed
-    DeleteCompanyBudgetLimitRequest:
-      type: object
-      properties:
-        target_type:
-          type: string
-          description: The target type of the budget limit (only team or user are supported).
-          enum:
-          - team
-          - user
-        target_uuid:
-          type: string
-          description: The UUID of the target (team or user).
-        limit_type:
-          type: string
-          description: The type of budget limit.
-          enum:
-          - general
-          - public-api
-      required:
-      - target_type
-      - limit_type
-      - target_uuid
   securitySchemes:
     bearerAuth:
       type: http
