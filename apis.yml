@@ -242,6 +242,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/nexosai-capability-edges.yml
+  name: nexos.ai Business Capability Map
 - type: Website
   url: https://nexos.ai/
 - type: DeveloperPortal
