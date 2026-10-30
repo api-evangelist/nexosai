@@ -64,6 +64,145 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-nexos.ai is a company surfaced as a portfolio company of creandum, index-ventures and added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment pipeline.
+nexos.ai is an enterprise AI platform and OpenAI-compatible AI gateway that unifies many large language model providers behind a single API key and governed workspace. Its Gateway API exposes chat completions, responses, messages, embeddings, images, audio (speech, transcription, translation), batches, files, and storage, alongside management surfaces for models and fallbacks, teams, users, agents, assistants, companies, API keys, and per-company/team/user budget limits. Organizations get guardrails, observability, smart routing across models, agents (Agent Builder with human-in-the-loop approvals), and integrations with tools like Slack, Atlassian, GitHub, Google Workspace, and Microsoft 365. Founded by the team behind Nord Security and backed by Index Ventures and Creandum. This profile was enriched from the provider's public docs at docs.nexos.ai.
 
-Backed by: creandum, index-ventures — https://nexos.ai/
+**Areas:** Company · Artificial Intelligence · LLM · AI Gateway · Machine Learning · Embeddings · Agents · Developer Tools · OpenAI-Compatible
+
+## nexos.ai on APIs.io
+
+Everything profiled for nexos.ai is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/nexosai/](https://apis.io/providers/nexosai/)** — or go straight to one of the APIs or properties below.
+
+### APIs (16)
+
+- [nexos.ai Agent Management API](https://apis.io/apis/nexosai/nexosai-agent-management-api/) — Manage agents.
+- [nexos.ai Assistant Management API](https://apis.io/apis/nexosai/nexosai-assistant-management-api/) — Manage assistants.
+- [nexos.ai Audio API](https://apis.io/apis/nexosai/nexosai-audio-api/) — Generate audio or text from audio or text input.
+- [nexos.ai Batches API](https://apis.io/apis/nexosai/nexosai-batches-api/) — Create and run large groups of requests asynchronously. Batches are only available for OpenAI models.
+- [nexos.ai Budget Limit Management API](https://apis.io/apis/nexosai/nexosai-budget-limit-management-api/) — Manage company budget limits.
+- [nexos.ai Company Management API](https://apis.io/apis/nexosai/nexosai-company-management-api/) — List company API keys and their usage.
+- [nexos.ai Embeddings API](https://apis.io/apis/nexosai/nexosai-embeddings-api/) — Create vector embeddings for input text.
+- [nexos.ai Files API](https://apis.io/apis/nexosai/nexosai-files-api/) — Upload and manage files used by other endpoints.
+- [nexos.ai Images API](https://apis.io/apis/nexosai/nexosai-images-api/) — Generate images from image or text input.
+- [nexos.ai Messages API](https://apis.io/apis/nexosai/nexosai-messages-api/) — Anthropic-native Messages API for prompt-cache-preserving passthrough.
+- [nexos.ai Models API](https://apis.io/apis/nexosai/nexosai-models-api/) — List available models.
+- [nexos.ai Responses API](https://apis.io/apis/nexosai/nexosai-responses-api/) — Create and manage model responses.
+- [nexos.ai Storage API](https://apis.io/apis/nexosai/nexosai-storage-api/) — Upload and manage media files.
+- [nexos.ai Team Management API](https://apis.io/apis/nexosai/nexosai-team-management-api/) — Manage teams, API keys, and models.
+- [nexos.ai User Management API](https://apis.io/apis/nexosai/nexosai-user-management-api/) — Manage user API keys.
+- [nexos.ai Chat Completions API](https://apis.io/apis/nexosai/nexosai-chat-completions-api/) — Generate a response from conversation messages.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [nexosai](https://apis.io/servers/nexosai/nexosai/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Nexosai Agentic Access](https://apis.io/agentic-access/nexosai/nexosai-agentic-access/)
+
+#### Collections (16)
+
+Postman and Open Collection request collections.
+
+- [Nexos AI Public API Production Agent Management API](https://apis.io/collections/nexosai/open-nexosai-agent-management-api/)
+- [Nexos AI Public API Production Agent Management Assistant Management API](https://apis.io/collections/nexosai/open-nexosai-assistant-management-api/)
+- [Nexos AI Public API Production Agent Management Audio API](https://apis.io/collections/nexosai/open-nexosai-audio-api/)
+- [Nexos AI Public API Production Agent Management Batches API](https://apis.io/collections/nexosai/open-nexosai-batches-api/)
+- [Nexos AI Public API Production Agent Management Budget Limit Management API](https://apis.io/collections/nexosai/open-nexosai-budget-limit-management-api/)
+- [Nexos AI Public API Production Agent Management Chat API](https://apis.io/collections/nexosai/open-nexosai-chat-api/)
+- [Nexos AI Public API Production Agent Management Company Management API](https://apis.io/collections/nexosai/open-nexosai-company-management-api/)
+- [Nexos AI Public API Production Agent Management Embeddings API](https://apis.io/collections/nexosai/open-nexosai-embeddings-api/)
+- [Nexos AI Public API Production Agent Management Files API](https://apis.io/collections/nexosai/open-nexosai-files-api/)
+- [Nexos AI Public API Production Agent Management Images API](https://apis.io/collections/nexosai/open-nexosai-images-api/)
+- [Nexos AI Public API Production Agent Management Messages API](https://apis.io/collections/nexosai/open-nexosai-messages-api/)
+- [Nexos AI Public API Production Agent Management Models API](https://apis.io/collections/nexosai/open-nexosai-models-api/)
+- [Nexos AI Public API Production Agent Management Responses API](https://apis.io/collections/nexosai/open-nexosai-responses-api/)
+- [Nexos AI Public API Production Agent Management Storage API](https://apis.io/collections/nexosai/open-nexosai-storage-api/)
+- [Nexos AI Public API Production Agent Management Team Management API](https://apis.io/collections/nexosai/open-nexosai-team-management-api/)
+- [Nexos AI Public API Production Agent Management User Management API](https://apis.io/collections/nexosai/open-nexosai-user-management-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Nexosai Gateway Overlay](https://apis.io/overlays/nexosai/nexosai-gateway-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Nexosai Authentication](https://apis.io/security/nexosai/nexosai-authentication/)
+- [Nexosai Domain Security](https://apis.io/security/nexosai/nexosai-domain-security/)
+- [Nexosai Trust Center](https://apis.io/security/nexosai/nexosai-trust-center/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://nexos.ai/)
+- [Documentation](https://docs.nexos.ai/)
+- [Getting started](https://docs.nexos.ai/readme.md)
+- [API reference](https://docs.nexos.ai/gateway-api)
+- [Changelog](https://docs.nexos.ai/changelog/changelog/latest-updates)
+- [Compliance](https://trust.nexos.ai/)
+- [GitHub](https://github.com/nexos-ai)
+
+## API Evangelist rating
+
+**Kin Score 38.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 48.7 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 51.8 |
+| Access clarity | 15.8 |
+
+**Agent readiness 25.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.0** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/nexosai/](https://apis.io/providers/nexosai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for nexos.ai: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/nexosai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
